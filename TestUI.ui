@@ -549,7 +549,7 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="cellTower">
         <property name="geometry">
          <rect>
           <x>70</x>
@@ -559,7 +559,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>PROB3</string>
+         <string>cellTower</string>
         </property>
        </widget>
       </widget>
@@ -608,7 +608,7 @@ QTableView{
 }</string>
     </property>
     <property name="currentIndex">
-     <number>12</number>
+     <number>9</number>
     </property>
     <widget class="QWidget" name="page_1_TSP">
      <widget class="QListView" name="listView">

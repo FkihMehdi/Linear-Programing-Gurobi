@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(815, 678)
@@ -162,6 +163,7 @@ class Ui_MainWindow(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         MainWindow.setPalette(palette)
         MainWindow.setMouseTracking(False)
+        self.index = 0
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(self.centralwidget)
@@ -181,6 +183,7 @@ class Ui_MainWindow(object):
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.tspbutton = QtWidgets.QPushButton(self.frame_2)
+        self.tspbutton.clicked.connect(lambda : self.setindex(0))
         self.tspbutton.setGeometry(QtCore.QRect(42, 30, 151, 41))
         self.tspbutton.setObjectName("tspbutton")
         self.horizontalLayout_2.addWidget(self.frame_2)
@@ -189,6 +192,7 @@ class Ui_MainWindow(object):
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_3.setObjectName("frame_3")
         self.ressources = QtWidgets.QPushButton(self.frame_3)
+        self.ressources.clicked.connect(lambda : self.setindex(3))
         self.ressources.setGeometry(QtCore.QRect(60, 30, 161, 41))
         self.ressources.setObjectName("ressources")
         self.horizontalLayout_2.addWidget(self.frame_3)
@@ -196,9 +200,9 @@ class Ui_MainWindow(object):
         self.frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_4.setObjectName("frame_4")
-        self.pushButton_3 = QtWidgets.QPushButton(self.frame_4)
-        self.pushButton_3.setGeometry(QtCore.QRect(70, 30, 161, 41))
-        self.pushButton_3.setObjectName("pushButton_3")
+        self.cellTower = QtWidgets.QPushButton(self.frame_4)
+        self.cellTower.setGeometry(QtCore.QRect(70, 30, 161, 41))
+        self.cellTower.setObjectName("cellTower")
         self.horizontalLayout_2.addWidget(self.frame_4)
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
         self.stackedWidget.setGeometry(QtCore.QRect(0, 100, 811, 701))
@@ -242,6 +246,7 @@ class Ui_MainWindow(object):
 "}")
         self.listView.setObjectName("listView")
         self.suivant1 = QtWidgets.QPushButton(self.page_1_TSP)
+        self.suivant1.clicked.connect(self.next_index)
         self.suivant1.setGeometry(QtCore.QRect(680, 420, 93, 28))
         self.suivant1.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
@@ -303,6 +308,7 @@ class Ui_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.resoudre1 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.resoudre1.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(2))
         self.resoudre1.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -382,6 +388,7 @@ class Ui_MainWindow(object):
         self.ajouter2.setGeometry(QtCore.QRect(460, 120, 93, 28))
         self.ajouter2.setObjectName("ajouter2")
         self.suivant2 = QtWidgets.QPushButton(self.produit)
+        self.suivant2.clicked.connect(self.next_index)
         self.suivant2.setGeometry(QtCore.QRect(690, 610, 93, 28))
         self.suivant2.setObjectName("suivant2")
         self.stackedWidget.addWidget(self.produit)
@@ -429,6 +436,7 @@ class Ui_MainWindow(object):
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem1)
         self.suivant3 = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.suivant3.clicked.connect(self.next_index)
         self.suivant3.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -465,6 +473,7 @@ class Ui_MainWindow(object):
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem2)
         self.suivant4 = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
+        self.suivant4.clicked.connect(self.next_index)
         self.suivant4.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -500,8 +509,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.addWidget(self.precedent_4)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem3)
-        self.resoudre_4 = QtWidgets.QPushButton(self.horizontalLayoutWidget_4)
-        self.resoudre_4.setStyleSheet("QPushButton{\n"
+        self.suivant6 = QtWidgets.QPushButton(self.horizontalLayoutWidget_4)
+        self.suivant6.clicked.connect(self.next_index)
+        self.suivant6.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
 "    height : 30px;\n"
@@ -509,8 +519,8 @@ class Ui_MainWindow(object):
 "    border-radius : 8px;\n"
 "    color : white;\n"
 "}")
-        self.resoudre_4.setObjectName("resoudre_4")
-        self.horizontalLayout_5.addWidget(self.resoudre_4)
+        self.suivant6.setObjectName("suivant5")
+        self.horizontalLayout_5.addWidget(self.suivant6)
         self.stackedWidget.addWidget(self.dureeproduit)
         self.info_prob2 = QtWidgets.QWidget()
         self.info_prob2.setObjectName("info_prob2")
@@ -654,6 +664,7 @@ class Ui_MainWindow(object):
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem5)
         self.suivant5 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
+        self.suivant5.clicked.connect(self.next_index)
         self.suivant5.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -720,7 +731,7 @@ class Ui_MainWindow(object):
         self.actionTSP.setObjectName("actionTSP")
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(12)
+        self.stackedWidget.setCurrentIndex(9)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -728,7 +739,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.tspbutton.setText(_translate("MainWindow", "TSP"))
         self.ressources.setText(_translate("MainWindow", "Ressources"))
-        self.pushButton_3.setText(_translate("MainWindow", "PROB3"))
+        self.cellTower.setText(_translate("MainWindow", "cellTower"))
         self.suivant1.setText(_translate("MainWindow", "Suivant >"))
         self.ajouter.setText(_translate("MainWindow", "Ajouter"))
         self.label.setText(_translate("MainWindow", "Definir vos noeuds "))
@@ -749,7 +760,7 @@ class Ui_MainWindow(object):
         self.precedent_3.setText(_translate("MainWindow", "Precedent"))
         self.suivant4.setText(_translate("MainWindow", "suivant >"))
         self.precedent_4.setText(_translate("MainWindow", "Precedent"))
-        self.resoudre_4.setText(_translate("MainWindow", "suivant >"))
+        self.suivant6.setText(_translate("MainWindow", "suivant >"))
         self.label_3.setText(_translate("MainWindow", "cout de stockage"))
         self.label_5.setText(_translate("MainWindow", "Capacité de stockage"))
         self.label_6.setText(_translate("MainWindow", "stockage dernière periode"))
@@ -766,6 +777,12 @@ class Ui_MainWindow(object):
         self.label_14.setText(_translate("MainWindow", "allocated budget"))
         self.actionTSP.setText(_translate("MainWindow", "TSP"))
 
+    def next_index(self):
+        self.index += 1
+        self.stackedWidget.setCurrentIndex(self.index)
+    def setindex(self,index):
+        self.index = index
+        self.stackedWidget.setCurrentIndex(self.index)
 
 if __name__ == "__main__":
     import sys
