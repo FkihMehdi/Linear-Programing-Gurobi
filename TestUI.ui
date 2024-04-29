@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>815</width>
-    <height>793</height>
+    <height>678</height>
    </rect>
   </property>
   <property name="palette">
@@ -628,7 +628,7 @@ QTableView{
 }</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="suivant">
+     <widget class="QPushButton" name="suivant1">
       <property name="geometry">
        <rect>
         <x>680</x>
@@ -757,7 +757,7 @@ QTableView{
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="resoudre">
+        <widget class="QPushButton" name="resoudre1">
          <property name="styleSheet">
           <string notr="true">QPushButton{
 	background : #468189;
@@ -867,7 +867,7 @@ QTableView{
        <string>Resultat</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_13">
+     <widget class="QLabel" name="resultTSP">
       <property name="geometry">
        <rect>
         <x>190</x>
@@ -955,7 +955,7 @@ QTableView{
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="ajouter2">
       <property name="geometry">
        <rect>
         <x>460</x>
@@ -968,7 +968,7 @@ QTableView{
        <string>Ajouter</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_6">
+     <widget class="QPushButton" name="suivant2">
       <property name="geometry">
        <rect>
         <x>690</x>
@@ -1005,7 +1005,7 @@ QTableView{
        <string>Ressources</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="ressourcename">
       <property name="geometry">
        <rect>
         <x>210</x>
@@ -1015,7 +1015,7 @@ QTableView{
        </rect>
       </property>
      </widget>
-     <widget class="QSpinBox" name="spinBox">
+     <widget class="QSpinBox" name="counterressource">
       <property name="geometry">
        <rect>
         <x>340</x>
@@ -1035,7 +1035,7 @@ QTableView{
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_5">
+     <widget class="QPushButton" name="ajouterressource">
       <property name="geometry">
        <rect>
         <x>450</x>
@@ -1089,7 +1089,7 @@ QTableView{
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="resoudre_2">
+        <widget class="QPushButton" name="suivant3">
          <property name="styleSheet">
           <string notr="true">QPushButton{
 	background : #468189;
@@ -1160,7 +1160,7 @@ QTableView{
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="resoudre_3">
+        <widget class="QPushButton" name="suivant4">
          <property name="styleSheet">
           <string notr="true">QPushButton{
 	background : #468189;
@@ -1251,7 +1251,7 @@ QTableView{
      </widget>
     </widget>
     <widget class="QWidget" name="info_prob2">
-     <widget class="QLineEdit" name="lineEdit_3">
+     <widget class="QLineEdit" name="coutStock">
       <property name="geometry">
        <rect>
         <x>200</x>
@@ -1261,7 +1261,7 @@ QTableView{
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_4">
+     <widget class="QLineEdit" name="capacitestock">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -1271,7 +1271,7 @@ QTableView{
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_5">
+     <widget class="QLineEdit" name="stockdernier">
       <property name="geometry">
        <rect>
         <x>270</x>
@@ -1281,7 +1281,7 @@ QTableView{
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_6">
+     <widget class="QLineEdit" name="duretravail">
       <property name="geometry">
        <rect>
         <x>290</x>
@@ -1465,7 +1465,7 @@ QTableView{
        <string>lenn n7otou valeur </string>
       </property>
      </widget>
-     <widget class="QTableView" name="table1">
+     <widget class="QTableView" name="table1_1">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -1583,7 +1583,7 @@ QTableView{
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="resoudre_7">
+        <widget class="QPushButton" name="suivant5">
          <property name="styleSheet">
           <string notr="true">QPushButton{
 	background : #468189;
@@ -1672,7 +1672,7 @@ QTableView{
        </item>
       </layout>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_9">
+     <widget class="QLineEdit" name="allocatedbudget">
       <property name="geometry">
        <rect>
         <x>450</x>

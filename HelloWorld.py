@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(815, 793)
+        MainWindow.resize(815, 678)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -181,7 +181,6 @@ class Ui_MainWindow(object):
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.tspbutton = QtWidgets.QPushButton(self.frame_2)
-        self.tspbutton.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
         self.tspbutton.setGeometry(QtCore.QRect(42, 30, 151, 41))
         self.tspbutton.setObjectName("tspbutton")
         self.horizontalLayout_2.addWidget(self.frame_2)
@@ -242,10 +241,9 @@ class Ui_MainWindow(object):
 "    border : 1px solid black;\n"
 "}")
         self.listView.setObjectName("listView")
-        self.suivant = QtWidgets.QPushButton(self.page_1_TSP)
-        self.suivant.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(1))
-        self.suivant.setGeometry(QtCore.QRect(680, 420, 93, 28))
-        self.suivant.setStyleSheet("QPushButton{\n"
+        self.suivant1 = QtWidgets.QPushButton(self.page_1_TSP)
+        self.suivant1.setGeometry(QtCore.QRect(680, 420, 93, 28))
+        self.suivant1.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
 "    height : 30px;\n"
@@ -253,7 +251,7 @@ class Ui_MainWindow(object):
 "    border-radius : 8px;\n"
 "    color : white;\n"
 "}")
-        self.suivant.setObjectName("suivant")
+        self.suivant1.setObjectName("suivant1")
         self.ajouter = QtWidgets.QPushButton(self.page_1_TSP)
         self.ajouter.setGeometry(QtCore.QRect(210, 80, 93, 28))
         self.ajouter.setStyleSheet("QPushButton{\n"
@@ -304,17 +302,17 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.precedent)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
-        self.resoudre = QtWidgets.QPushButton(self.horizontalLayoutWidget)
-        self.resoudre.setStyleSheet("QPushButton{\n"
+        self.resoudre1 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.resoudre1.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
-"    height : 30px;\n"  
+"    height : 30px;\n"
 "    border : 1px solid black;\n"
 "    border-radius : 8px;\n"
 "    color : white;\n"
 "}")
-        self.resoudre.setObjectName("resoudre")
-        self.horizontalLayout.addWidget(self.resoudre)
+        self.resoudre1.setObjectName("resoudre1")
+        self.horizontalLayout.addWidget(self.resoudre1)
         self.tableView_3 = QtWidgets.QTableView(self.page_2_TSP)
         self.tableView_3.setGeometry(QtCore.QRect(30, 40, 751, 361))
         self.tableView_3.setObjectName("tableView_3")
@@ -351,9 +349,9 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label_12.setFont(font)
         self.label_12.setObjectName("label_12")
-        self.label_13 = QtWidgets.QLabel(self.page_3_TSP)
-        self.label_13.setGeometry(QtCore.QRect(190, 80, 111, 16))
-        self.label_13.setObjectName("label_13")
+        self.resultTSP = QtWidgets.QLabel(self.page_3_TSP)
+        self.resultTSP.setGeometry(QtCore.QRect(190, 80, 111, 16))
+        self.resultTSP.setObjectName("resultTSP")
         self.commandLinkButton = QtWidgets.QCommandLinkButton(self.page_3_TSP)
         self.commandLinkButton.setGeometry(QtCore.QRect(50, 150, 222, 48))
         self.commandLinkButton.setObjectName("commandLinkButton")
@@ -380,12 +378,12 @@ class Ui_MainWindow(object):
         self.produitnomber = QtWidgets.QSpinBox(self.produit)
         self.produitnomber.setGeometry(QtCore.QRect(340, 120, 101, 22))
         self.produitnomber.setObjectName("produitnomber")
-        self.pushButton_4 = QtWidgets.QPushButton(self.produit)
-        self.pushButton_4.setGeometry(QtCore.QRect(460, 120, 93, 28))
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_6 = QtWidgets.QPushButton(self.produit)
-        self.pushButton_6.setGeometry(QtCore.QRect(690, 610, 93, 28))
-        self.pushButton_6.setObjectName("pushButton_6")
+        self.ajouter2 = QtWidgets.QPushButton(self.produit)
+        self.ajouter2.setGeometry(QtCore.QRect(460, 120, 93, 28))
+        self.ajouter2.setObjectName("ajouter2")
+        self.suivant2 = QtWidgets.QPushButton(self.produit)
+        self.suivant2.setGeometry(QtCore.QRect(690, 610, 93, 28))
+        self.suivant2.setObjectName("suivant2")
         self.stackedWidget.addWidget(self.produit)
         self.ressource = QtWidgets.QWidget()
         self.ressource.setObjectName("ressource")
@@ -399,18 +397,18 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.ressource)
-        self.lineEdit_2.setGeometry(QtCore.QRect(210, 100, 113, 22))
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.spinBox = QtWidgets.QSpinBox(self.ressource)
-        self.spinBox.setGeometry(QtCore.QRect(340, 100, 81, 22))
-        self.spinBox.setObjectName("spinBox")
+        self.ressourcename = QtWidgets.QLineEdit(self.ressource)
+        self.ressourcename.setGeometry(QtCore.QRect(210, 100, 113, 22))
+        self.ressourcename.setObjectName("ressourcename")
+        self.counterressource = QtWidgets.QSpinBox(self.ressource)
+        self.counterressource.setGeometry(QtCore.QRect(340, 100, 81, 22))
+        self.counterressource.setObjectName("counterressource")
         self.listView_2 = QtWidgets.QListView(self.ressource)
         self.listView_2.setGeometry(QtCore.QRect(210, 150, 331, 261))
         self.listView_2.setObjectName("listView_2")
-        self.pushButton_5 = QtWidgets.QPushButton(self.ressource)
-        self.pushButton_5.setGeometry(QtCore.QRect(450, 100, 93, 28))
-        self.pushButton_5.setObjectName("pushButton_5")
+        self.ajouterressource = QtWidgets.QPushButton(self.ressource)
+        self.ajouterressource.setGeometry(QtCore.QRect(450, 100, 93, 28))
+        self.ajouterressource.setObjectName("ajouterressource")
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.ressource)
         self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(40, 520, 751, 44))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
@@ -430,8 +428,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.precedent_2)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem1)
-        self.resoudre_2 = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
-        self.resoudre_2.setStyleSheet("QPushButton{\n"
+        self.suivant3 = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.suivant3.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
 "    height : 30px;\n"
@@ -439,8 +437,8 @@ class Ui_MainWindow(object):
 "    border-radius : 8px;\n"
 "    color : white;\n"
 "}")
-        self.resoudre_2.setObjectName("resoudre_2")
-        self.horizontalLayout_3.addWidget(self.resoudre_2)
+        self.suivant3.setObjectName("suivant3")
+        self.horizontalLayout_3.addWidget(self.suivant3)
         self.stackedWidget.addWidget(self.ressource)
         self.machineproduit = QtWidgets.QWidget()
         self.machineproduit.setObjectName("machineproduit")
@@ -466,8 +464,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.addWidget(self.precedent_3)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem2)
-        self.resoudre_3 = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
-        self.resoudre_3.setStyleSheet("QPushButton{\n"
+        self.suivant4 = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
+        self.suivant4.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
 "    height : 30px;\n"
@@ -475,8 +473,8 @@ class Ui_MainWindow(object):
 "    border-radius : 8px;\n"
 "    color : white;\n"
 "}")
-        self.resoudre_3.setObjectName("resoudre_3")
-        self.horizontalLayout_4.addWidget(self.resoudre_3)
+        self.suivant4.setObjectName("suivant4")
+        self.horizontalLayout_4.addWidget(self.suivant4)
         self.stackedWidget.addWidget(self.machineproduit)
         self.dureeproduit = QtWidgets.QWidget()
         self.dureeproduit.setObjectName("dureeproduit")
@@ -516,18 +514,18 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.dureeproduit)
         self.info_prob2 = QtWidgets.QWidget()
         self.info_prob2.setObjectName("info_prob2")
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.info_prob2)
-        self.lineEdit_3.setGeometry(QtCore.QRect(200, 30, 113, 22))
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.lineEdit_4 = QtWidgets.QLineEdit(self.info_prob2)
-        self.lineEdit_4.setGeometry(QtCore.QRect(220, 80, 113, 22))
-        self.lineEdit_4.setObjectName("lineEdit_4")
-        self.lineEdit_5 = QtWidgets.QLineEdit(self.info_prob2)
-        self.lineEdit_5.setGeometry(QtCore.QRect(270, 130, 113, 22))
-        self.lineEdit_5.setObjectName("lineEdit_5")
-        self.lineEdit_6 = QtWidgets.QLineEdit(self.info_prob2)
-        self.lineEdit_6.setGeometry(QtCore.QRect(290, 180, 113, 22))
-        self.lineEdit_6.setObjectName("lineEdit_6")
+        self.coutStock = QtWidgets.QLineEdit(self.info_prob2)
+        self.coutStock.setGeometry(QtCore.QRect(200, 30, 113, 22))
+        self.coutStock.setObjectName("coutStock")
+        self.capacitestock = QtWidgets.QLineEdit(self.info_prob2)
+        self.capacitestock.setGeometry(QtCore.QRect(220, 80, 113, 22))
+        self.capacitestock.setObjectName("capacitestock")
+        self.stockdernier = QtWidgets.QLineEdit(self.info_prob2)
+        self.stockdernier.setGeometry(QtCore.QRect(270, 130, 113, 22))
+        self.stockdernier.setObjectName("stockdernier")
+        self.duretravail = QtWidgets.QLineEdit(self.info_prob2)
+        self.duretravail.setGeometry(QtCore.QRect(290, 180, 113, 22))
+        self.duretravail.setObjectName("duretravail")
         self.label_3 = QtWidgets.QLabel(self.info_prob2)
         self.label_3.setGeometry(QtCore.QRect(30, 30, 151, 20))
         font = QtGui.QFont()
@@ -604,9 +602,9 @@ class Ui_MainWindow(object):
         self.label_9 = QtWidgets.QLabel(self.result)
         self.label_9.setGeometry(QtCore.QRect(130, 25, 141, 21))
         self.label_9.setObjectName("label_9")
-        self.table1 = QtWidgets.QTableView(self.result)
-        self.table1.setGeometry(QtCore.QRect(30, 80, 381, 251))
-        self.table1.setObjectName("table1")
+        self.table1_1 = QtWidgets.QTableView(self.result)
+        self.table1_1.setGeometry(QtCore.QRect(30, 80, 381, 251))
+        self.table1_1.setObjectName("table1_1")
         self.table1_2 = QtWidgets.QTableView(self.result)
         self.table1_2.setGeometry(QtCore.QRect(420, 80, 381, 251))
         self.table1_2.setObjectName("table1_2")
@@ -655,8 +653,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.addWidget(self.precedent_6)
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem5)
-        self.resoudre_7 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
-        self.resoudre_7.setStyleSheet("QPushButton{\n"
+        self.suivant5 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
+        self.suivant5.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
 "    height : 30px;\n"
@@ -664,8 +662,8 @@ class Ui_MainWindow(object):
 "    border-radius : 8px;\n"
 "    color : white;\n"
 "}")
-        self.resoudre_7.setObjectName("resoudre_7")
-        self.horizontalLayout_7.addWidget(self.resoudre_7)
+        self.suivant5.setObjectName("suivant5")
+        self.horizontalLayout_7.addWidget(self.suivant5)
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QtWidgets.QWidget()
         self.page_3.setObjectName("page_3")
@@ -702,9 +700,9 @@ class Ui_MainWindow(object):
 "}")
         self.resoudre_8.setObjectName("resoudre_8")
         self.horizontalLayout_8.addWidget(self.resoudre_8)
-        self.lineEdit_9 = QtWidgets.QLineEdit(self.page_3)
-        self.lineEdit_9.setGeometry(QtCore.QRect(450, 430, 113, 22))
-        self.lineEdit_9.setObjectName("lineEdit_9")
+        self.allocatedbudget = QtWidgets.QLineEdit(self.page_3)
+        self.allocatedbudget.setGeometry(QtCore.QRect(450, 430, 113, 22))
+        self.allocatedbudget.setObjectName("allocatedbudget")
         self.label_14 = QtWidgets.QLabel(self.page_3)
         self.label_14.setGeometry(QtCore.QRect(250, 420, 201, 31))
         font = QtGui.QFont()
@@ -731,25 +729,25 @@ class Ui_MainWindow(object):
         self.tspbutton.setText(_translate("MainWindow", "TSP"))
         self.ressources.setText(_translate("MainWindow", "Ressources"))
         self.pushButton_3.setText(_translate("MainWindow", "PROB3"))
-        self.suivant.setText(_translate("MainWindow", "Suivant >"))
+        self.suivant1.setText(_translate("MainWindow", "Suivant >"))
         self.ajouter.setText(_translate("MainWindow", "Ajouter"))
         self.label.setText(_translate("MainWindow", "Definir vos noeuds "))
         self.precedent.setText(_translate("MainWindow", "Precedent"))
-        self.resoudre.setText(_translate("MainWindow", "résoudre"))
+        self.resoudre1.setText(_translate("MainWindow", "résoudre"))
         self.label_10.setText(_translate("MainWindow", "Start"))
         self.label_11.setText(_translate("MainWindow", "End"))
         self.label_12.setText(_translate("MainWindow", "Resultat"))
-        self.label_13.setText(_translate("MainWindow", "lenna result tsp"))
+        self.resultTSP.setText(_translate("MainWindow", "lenna result tsp"))
         self.commandLinkButton.setText(_translate("MainWindow", "chemin"))
         self.label_2.setText(_translate("MainWindow", "durée"))
-        self.pushButton_4.setText(_translate("MainWindow", "Ajouter"))
-        self.pushButton_6.setText(_translate("MainWindow", "Suivant >"))
+        self.ajouter2.setText(_translate("MainWindow", "Ajouter"))
+        self.suivant2.setText(_translate("MainWindow", "Suivant >"))
         self.label_4.setText(_translate("MainWindow", "Ressources"))
-        self.pushButton_5.setText(_translate("MainWindow", "Ajouter"))
+        self.ajouterressource.setText(_translate("MainWindow", "Ajouter"))
         self.precedent_2.setText(_translate("MainWindow", "Precedent"))
-        self.resoudre_2.setText(_translate("MainWindow", "suivant >"))
+        self.suivant3.setText(_translate("MainWindow", "suivant >"))
         self.precedent_3.setText(_translate("MainWindow", "Precedent"))
-        self.resoudre_3.setText(_translate("MainWindow", "suivant >"))
+        self.suivant4.setText(_translate("MainWindow", "suivant >"))
         self.precedent_4.setText(_translate("MainWindow", "Precedent"))
         self.resoudre_4.setText(_translate("MainWindow", "suivant >"))
         self.label_3.setText(_translate("MainWindow", "cout de stockage"))
@@ -762,7 +760,7 @@ class Ui_MainWindow(object):
         self.label_9.setText(_translate("MainWindow", "lenn n7otou valeur "))
         self.resoudre_6.setText(_translate("MainWindow", "suivant >"))
         self.precedent_6.setText(_translate("MainWindow", "Precedent"))
-        self.resoudre_7.setText(_translate("MainWindow", "suivant >"))
+        self.suivant5.setText(_translate("MainWindow", "suivant >"))
         self.precedent_7.setText(_translate("MainWindow", "Precedent"))
         self.resoudre_8.setText(_translate("MainWindow", "resoudre"))
         self.label_14.setText(_translate("MainWindow", "allocated budget"))
