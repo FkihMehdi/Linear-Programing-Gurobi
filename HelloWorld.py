@@ -10,11 +10,11 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-data = []
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(815, 577)
+        MainWindow.resize(815, 793)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -180,17 +180,18 @@ class Ui_MainWindow(object):
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
-        self.pushButton = QtWidgets.QPushButton(self.frame_2)
-        self.pushButton.setGeometry(QtCore.QRect(42, 30, 151, 41))
-        self.pushButton.setObjectName("pushButton")
+        self.tspbutton = QtWidgets.QPushButton(self.frame_2)
+        self.tspbutton.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(0))
+        self.tspbutton.setGeometry(QtCore.QRect(42, 30, 151, 41))
+        self.tspbutton.setObjectName("tspbutton")
         self.horizontalLayout_2.addWidget(self.frame_2)
         self.frame_3 = QtWidgets.QFrame(self.frame)
         self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_3.setObjectName("frame_3")
-        self.pushButton_2 = QtWidgets.QPushButton(self.frame_3)
-        self.pushButton_2.setGeometry(QtCore.QRect(60, 30, 161, 41))
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.ressources = QtWidgets.QPushButton(self.frame_3)
+        self.ressources.setGeometry(QtCore.QRect(60, 30, 161, 41))
+        self.ressources.setObjectName("ressources")
         self.horizontalLayout_2.addWidget(self.frame_3)
         self.frame_4 = QtWidgets.QFrame(self.frame)
         self.frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -201,12 +202,39 @@ class Ui_MainWindow(object):
         self.pushButton_3.setObjectName("pushButton_3")
         self.horizontalLayout_2.addWidget(self.frame_4)
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
-        self.stackedWidget.setGeometry(QtCore.QRect(0, 100, 811, 471))
+        self.stackedWidget.setGeometry(QtCore.QRect(0, 100, 811, 701))
+        font = QtGui.QFont()
+        font.setPointSize(3)
+        self.stackedWidget.setFont(font)
+        self.stackedWidget.setStyleSheet("QLineEdit{\n"
+"    border : 1px solid black ;\n"
+"    border-radius : 8px;\n"
+"}\n"
+"\n"
+"QListView{\n"
+"    background : #9DBEBB;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;\n"
+"}\n"
+"\n"
+"QSpinBox{\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;\n"
+"}\n"
+"\n"
+"QPushButton{\n"
+"    background : #468189;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;\n"
+"    color : white;\n"
+"}\n"
+"QTableView{\n"
+"    background : #9DBEBB;\n"
+"}")
         self.stackedWidget.setObjectName("stackedWidget")
         self.page_1_TSP = QtWidgets.QWidget()
         self.page_1_TSP.setObjectName("page_1_TSP")
         self.listView = QtWidgets.QListView(self.page_1_TSP)
-        model = QtGui.QStandardItemModel()
         self.listView.setGeometry(QtCore.QRect(60, 130, 251, 321))
         self.listView.setStyleSheet("QListView{\n"
 "    background : #9DBEBB;\n"
@@ -215,7 +243,7 @@ class Ui_MainWindow(object):
 "}")
         self.listView.setObjectName("listView")
         self.suivant = QtWidgets.QPushButton(self.page_1_TSP)
-        self.suivant.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+        self.suivant.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(1))
         self.suivant.setGeometry(QtCore.QRect(680, 420, 93, 28))
         self.suivant.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
@@ -227,7 +255,6 @@ class Ui_MainWindow(object):
 "}")
         self.suivant.setObjectName("suivant")
         self.ajouter = QtWidgets.QPushButton(self.page_1_TSP)
-        self.ajouter.clicked.connect(self.button_ajout)
         self.ajouter.setGeometry(QtCore.QRect(210, 80, 93, 28))
         self.ajouter.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
@@ -259,13 +286,12 @@ class Ui_MainWindow(object):
         self.page_2_TSP = QtWidgets.QWidget()
         self.page_2_TSP.setObjectName("page_2_TSP")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.page_2_TSP)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 420, 751, 44))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 510, 751, 44))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.precedent = QtWidgets.QPushButton(self.horizontalLayoutWidget)
-        self.precedent.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
         self.precedent.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -282,44 +308,467 @@ class Ui_MainWindow(object):
         self.resoudre.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
-"    height : 30px;\n"
+"    height : 30px;\n"  
 "    border : 1px solid black;\n"
 "    border-radius : 8px;\n"
 "    color : white;\n"
 "}")
         self.resoudre.setObjectName("resoudre")
         self.horizontalLayout.addWidget(self.resoudre)
+        self.tableView_3 = QtWidgets.QTableView(self.page_2_TSP)
+        self.tableView_3.setGeometry(QtCore.QRect(30, 40, 751, 361))
+        self.tableView_3.setObjectName("tableView_3")
+        self.lineEdit_7 = QtWidgets.QLineEdit(self.page_2_TSP)
+        self.lineEdit_7.setGeometry(QtCore.QRect(120, 440, 181, 22))
+        self.lineEdit_7.setObjectName("lineEdit_7")
+        self.label_10 = QtWidgets.QLabel(self.page_2_TSP)
+        self.label_10.setGeometry(QtCore.QRect(40, 440, 71, 21))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_10.setFont(font)
+        self.label_10.setObjectName("label_10")
+        self.label_11 = QtWidgets.QLabel(self.page_2_TSP)
+        self.label_11.setGeometry(QtCore.QRect(380, 440, 71, 21))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_11.setFont(font)
+        self.label_11.setObjectName("label_11")
+        self.lineEdit_8 = QtWidgets.QLineEdit(self.page_2_TSP)
+        self.lineEdit_8.setGeometry(QtCore.QRect(430, 440, 181, 22))
+        self.lineEdit_8.setObjectName("lineEdit_8")
         self.stackedWidget.addWidget(self.page_2_TSP)
+        self.page_3_TSP = QtWidgets.QWidget()
+        self.page_3_TSP.setObjectName("page_3_TSP")
+        self.label_12 = QtWidgets.QLabel(self.page_3_TSP)
+        self.label_12.setGeometry(QtCore.QRect(50, 70, 161, 41))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_12.setFont(font)
+        self.label_12.setObjectName("label_12")
+        self.label_13 = QtWidgets.QLabel(self.page_3_TSP)
+        self.label_13.setGeometry(QtCore.QRect(190, 80, 111, 16))
+        self.label_13.setObjectName("label_13")
+        self.commandLinkButton = QtWidgets.QCommandLinkButton(self.page_3_TSP)
+        self.commandLinkButton.setGeometry(QtCore.QRect(50, 150, 222, 48))
+        self.commandLinkButton.setObjectName("commandLinkButton")
+        self.stackedWidget.addWidget(self.page_3_TSP)
+        self.produit = QtWidgets.QWidget()
+        self.produit.setObjectName("produit")
+        self.duree = QtWidgets.QLineEdit(self.produit)
+        self.duree.setGeometry(QtCore.QRect(130, 30, 131, 31))
+        self.duree.setObjectName("duree")
+        self.produitlist = QtWidgets.QListView(self.produit)
+        self.produitlist.setGeometry(QtCore.QRect(210, 171, 351, 291))
+        self.produitlist.setObjectName("produitlist")
+        self.label_2 = QtWidgets.QLabel(self.produit)
+        self.label_2.setGeometry(QtCore.QRect(30, 30, 81, 21))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_2.setFont(font)
+        self.label_2.setObjectName("label_2")
+        self.productname = QtWidgets.QLineEdit(self.produit)
+        self.productname.setGeometry(QtCore.QRect(210, 120, 113, 22))
+        self.productname.setObjectName("productname")
+        self.produitnomber = QtWidgets.QSpinBox(self.produit)
+        self.produitnomber.setGeometry(QtCore.QRect(340, 120, 101, 22))
+        self.produitnomber.setObjectName("produitnomber")
+        self.pushButton_4 = QtWidgets.QPushButton(self.produit)
+        self.pushButton_4.setGeometry(QtCore.QRect(460, 120, 93, 28))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_6 = QtWidgets.QPushButton(self.produit)
+        self.pushButton_6.setGeometry(QtCore.QRect(690, 610, 93, 28))
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.stackedWidget.addWidget(self.produit)
+        self.ressource = QtWidgets.QWidget()
+        self.ressource.setObjectName("ressource")
+        self.label_4 = QtWidgets.QLabel(self.ressource)
+        self.label_4.setGeometry(QtCore.QRect(80, 20, 141, 41))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setUnderline(False)
+        font.setWeight(75)
+        self.label_4.setFont(font)
+        self.label_4.setObjectName("label_4")
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.ressource)
+        self.lineEdit_2.setGeometry(QtCore.QRect(210, 100, 113, 22))
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.spinBox = QtWidgets.QSpinBox(self.ressource)
+        self.spinBox.setGeometry(QtCore.QRect(340, 100, 81, 22))
+        self.spinBox.setObjectName("spinBox")
+        self.listView_2 = QtWidgets.QListView(self.ressource)
+        self.listView_2.setGeometry(QtCore.QRect(210, 150, 331, 261))
+        self.listView_2.setObjectName("listView_2")
+        self.pushButton_5 = QtWidgets.QPushButton(self.ressource)
+        self.pushButton_5.setGeometry(QtCore.QRect(450, 100, 93, 28))
+        self.pushButton_5.setObjectName("pushButton_5")
+        self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.ressource)
+        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(40, 520, 751, 44))
+        self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.precedent_2 = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.precedent_2.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;    \n"
+"    color : white;\n"
+"}")
+        self.precedent_2.setObjectName("precedent_2")
+        self.horizontalLayout_3.addWidget(self.precedent_2)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem1)
+        self.resoudre_2 = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.resoudre_2.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;\n"
+"    color : white;\n"
+"}")
+        self.resoudre_2.setObjectName("resoudre_2")
+        self.horizontalLayout_3.addWidget(self.resoudre_2)
+        self.stackedWidget.addWidget(self.ressource)
+        self.machineproduit = QtWidgets.QWidget()
+        self.machineproduit.setObjectName("machineproduit")
+        self.tableView = QtWidgets.QTableView(self.machineproduit)
+        self.tableView.setGeometry(QtCore.QRect(70, 30, 671, 341))
+        self.tableView.setObjectName("tableView")
+        self.horizontalLayoutWidget_3 = QtWidgets.QWidget(self.machineproduit)
+        self.horizontalLayoutWidget_3.setGeometry(QtCore.QRect(40, 460, 751, 44))
+        self.horizontalLayoutWidget_3.setObjectName("horizontalLayoutWidget_3")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_3)
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.precedent_3 = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
+        self.precedent_3.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;    \n"
+"    color : white;\n"
+"}")
+        self.precedent_3.setObjectName("precedent_3")
+        self.horizontalLayout_4.addWidget(self.precedent_3)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem2)
+        self.resoudre_3 = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
+        self.resoudre_3.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;\n"
+"    color : white;\n"
+"}")
+        self.resoudre_3.setObjectName("resoudre_3")
+        self.horizontalLayout_4.addWidget(self.resoudre_3)
+        self.stackedWidget.addWidget(self.machineproduit)
+        self.dureeproduit = QtWidgets.QWidget()
+        self.dureeproduit.setObjectName("dureeproduit")
+        self.tableView_2 = QtWidgets.QTableView(self.dureeproduit)
+        self.tableView_2.setGeometry(QtCore.QRect(60, 100, 691, 291))
+        self.tableView_2.setObjectName("tableView_2")
+        self.horizontalLayoutWidget_4 = QtWidgets.QWidget(self.dureeproduit)
+        self.horizontalLayoutWidget_4.setGeometry(QtCore.QRect(30, 500, 751, 44))
+        self.horizontalLayoutWidget_4.setObjectName("horizontalLayoutWidget_4")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_4)
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.precedent_4 = QtWidgets.QPushButton(self.horizontalLayoutWidget_4)
+        self.precedent_4.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;    \n"
+"    color : white;\n"
+"}")
+        self.precedent_4.setObjectName("precedent_4")
+        self.horizontalLayout_5.addWidget(self.precedent_4)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem3)
+        self.resoudre_4 = QtWidgets.QPushButton(self.horizontalLayoutWidget_4)
+        self.resoudre_4.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;\n"
+"    color : white;\n"
+"}")
+        self.resoudre_4.setObjectName("resoudre_4")
+        self.horizontalLayout_5.addWidget(self.resoudre_4)
+        self.stackedWidget.addWidget(self.dureeproduit)
+        self.info_prob2 = QtWidgets.QWidget()
+        self.info_prob2.setObjectName("info_prob2")
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.info_prob2)
+        self.lineEdit_3.setGeometry(QtCore.QRect(200, 30, 113, 22))
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.lineEdit_4 = QtWidgets.QLineEdit(self.info_prob2)
+        self.lineEdit_4.setGeometry(QtCore.QRect(220, 80, 113, 22))
+        self.lineEdit_4.setObjectName("lineEdit_4")
+        self.lineEdit_5 = QtWidgets.QLineEdit(self.info_prob2)
+        self.lineEdit_5.setGeometry(QtCore.QRect(270, 130, 113, 22))
+        self.lineEdit_5.setObjectName("lineEdit_5")
+        self.lineEdit_6 = QtWidgets.QLineEdit(self.info_prob2)
+        self.lineEdit_6.setGeometry(QtCore.QRect(290, 180, 113, 22))
+        self.lineEdit_6.setObjectName("lineEdit_6")
+        self.label_3 = QtWidgets.QLabel(self.info_prob2)
+        self.label_3.setGeometry(QtCore.QRect(30, 30, 151, 20))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_3.setFont(font)
+        self.label_3.setObjectName("label_3")
+        self.label_5 = QtWidgets.QLabel(self.info_prob2)
+        self.label_5.setGeometry(QtCore.QRect(30, 80, 191, 20))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_5.setFont(font)
+        self.label_5.setObjectName("label_5")
+        self.label_6 = QtWidgets.QLabel(self.info_prob2)
+        self.label_6.setGeometry(QtCore.QRect(30, 130, 231, 20))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_6.setFont(font)
+        self.label_6.setObjectName("label_6")
+        self.label_7 = QtWidgets.QLabel(self.info_prob2)
+        self.label_7.setGeometry(QtCore.QRect(30, 180, 251, 20))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_7.setFont(font)
+        self.label_7.setObjectName("label_7")
+        self.horizontalLayoutWidget_5 = QtWidgets.QWidget(self.info_prob2)
+        self.horizontalLayoutWidget_5.setGeometry(QtCore.QRect(30, 400, 751, 44))
+        self.horizontalLayoutWidget_5.setObjectName("horizontalLayoutWidget_5")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_5)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.precedent_5 = QtWidgets.QPushButton(self.horizontalLayoutWidget_5)
+        self.precedent_5.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;    \n"
+"    color : white;\n"
+"}")
+        self.precedent_5.setObjectName("precedent_5")
+        self.horizontalLayout_6.addWidget(self.precedent_5)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem4)
+        self.resoudre_5 = QtWidgets.QPushButton(self.horizontalLayoutWidget_5)
+        self.resoudre_5.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;\n"
+"    color : white;\n"
+"}")
+        self.resoudre_5.setObjectName("resoudre_5")
+        self.horizontalLayout_6.addWidget(self.resoudre_5)
+        self.stackedWidget.addWidget(self.info_prob2)
+        self.result = QtWidgets.QWidget()
+        self.result.setObjectName("result")
+        self.label_8 = QtWidgets.QLabel(self.result)
+        self.label_8.setGeometry(QtCore.QRect(40, 20, 71, 31))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_8.setFont(font)
+        self.label_8.setObjectName("label_8")
+        self.label_9 = QtWidgets.QLabel(self.result)
+        self.label_9.setGeometry(QtCore.QRect(130, 25, 141, 21))
+        self.label_9.setObjectName("label_9")
+        self.table1 = QtWidgets.QTableView(self.result)
+        self.table1.setGeometry(QtCore.QRect(30, 80, 381, 251))
+        self.table1.setObjectName("table1")
+        self.table1_2 = QtWidgets.QTableView(self.result)
+        self.table1_2.setGeometry(QtCore.QRect(420, 80, 381, 251))
+        self.table1_2.setObjectName("table1_2")
+        self.table1_3 = QtWidgets.QTableView(self.result)
+        self.table1_3.setGeometry(QtCore.QRect(220, 350, 381, 251))
+        self.table1_3.setObjectName("table1_3")
+        self.stackedWidget.addWidget(self.result)
+        self.page = QtWidgets.QWidget()
+        self.page.setObjectName("page")
+        self.tableView_4 = QtWidgets.QTableView(self.page)
+        self.tableView_4.setGeometry(QtCore.QRect(30, 180, 771, 321))
+        self.tableView_4.setObjectName("tableView_4")
+        self.resoudre_6 = QtWidgets.QPushButton(self.page)
+        self.resoudre_6.setGeometry(QtCore.QRect(710, 540, 72, 32))
+        self.resoudre_6.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;\n"
+"    color : white;\n"
+"}")
+        self.resoudre_6.setObjectName("resoudre_6")
+        self.stackedWidget.addWidget(self.page)
+        self.page_2 = QtWidgets.QWidget()
+        self.page_2.setObjectName("page_2")
+        self.tableView_5 = QtWidgets.QTableView(self.page_2)
+        self.tableView_5.setGeometry(QtCore.QRect(20, 221, 781, 111))
+        self.tableView_5.setObjectName("tableView_5")
+        self.horizontalLayoutWidget_6 = QtWidgets.QWidget(self.page_2)
+        self.horizontalLayoutWidget_6.setGeometry(QtCore.QRect(30, 420, 751, 44))
+        self.horizontalLayoutWidget_6.setObjectName("horizontalLayoutWidget_6")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_6)
+        self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.precedent_6 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
+        self.precedent_6.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;    \n"
+"    color : white;\n"
+"}")
+        self.precedent_6.setObjectName("precedent_6")
+        self.horizontalLayout_7.addWidget(self.precedent_6)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem5)
+        self.resoudre_7 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
+        self.resoudre_7.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;\n"
+"    color : white;\n"
+"}")
+        self.resoudre_7.setObjectName("resoudre_7")
+        self.horizontalLayout_7.addWidget(self.resoudre_7)
+        self.stackedWidget.addWidget(self.page_2)
+        self.page_3 = QtWidgets.QWidget()
+        self.page_3.setObjectName("page_3")
+        self.tableView_6 = QtWidgets.QTableView(self.page_3)
+        self.tableView_6.setGeometry(QtCore.QRect(230, 110, 331, 271))
+        self.tableView_6.setObjectName("tableView_6")
+        self.horizontalLayoutWidget_7 = QtWidgets.QWidget(self.page_3)
+        self.horizontalLayoutWidget_7.setGeometry(QtCore.QRect(40, 530, 751, 44))
+        self.horizontalLayoutWidget_7.setObjectName("horizontalLayoutWidget_7")
+        self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_7)
+        self.horizontalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        self.precedent_7 = QtWidgets.QPushButton(self.horizontalLayoutWidget_7)
+        self.precedent_7.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;    \n"
+"    color : white;\n"
+"}")
+        self.precedent_7.setObjectName("precedent_7")
+        self.horizontalLayout_8.addWidget(self.precedent_7)
+        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem6)
+        self.resoudre_8 = QtWidgets.QPushButton(self.horizontalLayoutWidget_7)
+        self.resoudre_8.setStyleSheet("QPushButton{\n"
+"    background : #468189;\n"
+"    width : 70px;\n"
+"    height : 30px;\n"
+"    border : 1px solid black;\n"
+"    border-radius : 8px;\n"
+"    color : white;\n"
+"}")
+        self.resoudre_8.setObjectName("resoudre_8")
+        self.horizontalLayout_8.addWidget(self.resoudre_8)
+        self.lineEdit_9 = QtWidgets.QLineEdit(self.page_3)
+        self.lineEdit_9.setGeometry(QtCore.QRect(450, 430, 113, 22))
+        self.lineEdit_9.setObjectName("lineEdit_9")
+        self.label_14 = QtWidgets.QLabel(self.page_3)
+        self.label_14.setGeometry(QtCore.QRect(250, 420, 201, 31))
+        font = QtGui.QFont()
+        font.setPointSize(13)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_14.setFont(font)
+        self.label_14.setObjectName("label_14")
+        self.stackedWidget.addWidget(self.page_3)
+        self.page_4 = QtWidgets.QWidget()
+        self.page_4.setObjectName("page_4")
+        self.stackedWidget.addWidget(self.page_4)
         MainWindow.setCentralWidget(self.centralwidget)
         self.actionTSP = QtWidgets.QAction(MainWindow)
         self.actionTSP.setObjectName("actionTSP")
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(12)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "TSP"))
-        self.pushButton_2.setText(_translate("MainWindow", "PROB2"))
+        self.tspbutton.setText(_translate("MainWindow", "TSP"))
+        self.ressources.setText(_translate("MainWindow", "Ressources"))
         self.pushButton_3.setText(_translate("MainWindow", "PROB3"))
         self.suivant.setText(_translate("MainWindow", "Suivant >"))
         self.ajouter.setText(_translate("MainWindow", "Ajouter"))
         self.label.setText(_translate("MainWindow", "Definir vos noeuds "))
         self.precedent.setText(_translate("MainWindow", "Precedent"))
         self.resoudre.setText(_translate("MainWindow", "résoudre"))
+        self.label_10.setText(_translate("MainWindow", "Start"))
+        self.label_11.setText(_translate("MainWindow", "End"))
+        self.label_12.setText(_translate("MainWindow", "Resultat"))
+        self.label_13.setText(_translate("MainWindow", "lenna result tsp"))
+        self.commandLinkButton.setText(_translate("MainWindow", "chemin"))
+        self.label_2.setText(_translate("MainWindow", "durée"))
+        self.pushButton_4.setText(_translate("MainWindow", "Ajouter"))
+        self.pushButton_6.setText(_translate("MainWindow", "Suivant >"))
+        self.label_4.setText(_translate("MainWindow", "Ressources"))
+        self.pushButton_5.setText(_translate("MainWindow", "Ajouter"))
+        self.precedent_2.setText(_translate("MainWindow", "Precedent"))
+        self.resoudre_2.setText(_translate("MainWindow", "suivant >"))
+        self.precedent_3.setText(_translate("MainWindow", "Precedent"))
+        self.resoudre_3.setText(_translate("MainWindow", "suivant >"))
+        self.precedent_4.setText(_translate("MainWindow", "Precedent"))
+        self.resoudre_4.setText(_translate("MainWindow", "suivant >"))
+        self.label_3.setText(_translate("MainWindow", "cout de stockage"))
+        self.label_5.setText(_translate("MainWindow", "Capacité de stockage"))
+        self.label_6.setText(_translate("MainWindow", "stockage dernière periode"))
+        self.label_7.setText(_translate("MainWindow", "durée de travail par periode"))
+        self.precedent_5.setText(_translate("MainWindow", "Precedent"))
+        self.resoudre_5.setText(_translate("MainWindow", "résoudre"))
+        self.label_8.setText(_translate("MainWindow", "Profit"))
+        self.label_9.setText(_translate("MainWindow", "lenn n7otou valeur "))
+        self.resoudre_6.setText(_translate("MainWindow", "suivant >"))
+        self.precedent_6.setText(_translate("MainWindow", "Precedent"))
+        self.resoudre_7.setText(_translate("MainWindow", "suivant >"))
+        self.precedent_7.setText(_translate("MainWindow", "Precedent"))
+        self.resoudre_8.setText(_translate("MainWindow", "resoudre"))
+        self.label_14.setText(_translate("MainWindow", "allocated budget"))
         self.actionTSP.setText(_translate("MainWindow", "TSP"))
-    def button_ajout(self):
-        newItem = self.lineEdit.text()
-        data.insert(0, newItem)
-        self.lineEdit.clear()
-        model = QtGui.QStandardItemModel()
-        for i in data:
-            item = QtGui.QStandardItem(i)
-            model.appendRow(item)
-        self.listView.setModel(model)
-        self.listView.show()
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
