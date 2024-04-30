@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import numpy
 # Form implementation generated from reading ui file 'TestUI.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
@@ -10,9 +10,18 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from controlinput import is_float
+
 
 class Ui_MainWindow(object):
 
+    shortestPathData = []
+    paths = {}
+    profit = {}
+    installed = {}
+    time_req = {}
+    max_sales = {}
+    ressourcesList = {}
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(815, 678)
@@ -238,6 +247,7 @@ class Ui_MainWindow(object):
         self.page_1_TSP = QtWidgets.QWidget()
         self.page_1_TSP.setObjectName("page_1_TSP")
         self.listView = QtWidgets.QListView(self.page_1_TSP)
+        self.model1 = QtGui.QStandardItemModel()
         self.listView.setGeometry(QtCore.QRect(60, 130, 251, 321))
         self.listView.setStyleSheet("QListView{\n"
 "    background : #9DBEBB;\n"
@@ -246,7 +256,7 @@ class Ui_MainWindow(object):
 "}")
         self.listView.setObjectName("listView")
         self.suivant1 = QtWidgets.QPushButton(self.page_1_TSP)
-        self.suivant1.clicked.connect(self.next_index)
+        self.suivant1.clicked.connect(self.insertdatashortestpath)
         self.suivant1.setGeometry(QtCore.QRect(680, 420, 93, 28))
         self.suivant1.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
@@ -258,6 +268,7 @@ class Ui_MainWindow(object):
 "}")
         self.suivant1.setObjectName("suivant1")
         self.ajouter = QtWidgets.QPushButton(self.page_1_TSP)
+        self.ajouter.clicked.connect(self.add_to_list)
         self.ajouter.setGeometry(QtCore.QRect(210, 80, 93, 28))
         self.ajouter.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
@@ -268,6 +279,7 @@ class Ui_MainWindow(object):
 "    color : white;\n"
 "}")
         self.ajouter.setObjectName("ajouter")
+
         self.lineEdit = QtWidgets.QLineEdit(self.page_1_TSP)
         self.lineEdit.setGeometry(QtCore.QRect(60, 80, 113, 22))
         self.lineEdit.setStyleSheet("QLineEdit{\n"
@@ -308,7 +320,7 @@ class Ui_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.resoudre1 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
-        self.resoudre1.clicked.connect(lambda : self.stackedWidget.setCurrentIndex(2))
+        self.resoudre1.clicked.connect(self.shortestpath)
         self.resoudre1.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -386,9 +398,10 @@ class Ui_MainWindow(object):
         self.produitnomber.setObjectName("produitnomber")
         self.ajouter2 = QtWidgets.QPushButton(self.produit)
         self.ajouter2.setGeometry(QtCore.QRect(460, 120, 93, 28))
+        self.ajouter2.clicked.connect(self.getproducts)
         self.ajouter2.setObjectName("ajouter2")
         self.suivant2 = QtWidgets.QPushButton(self.produit)
-        self.suivant2.clicked.connect(self.next_index)
+        self.suivant2.clicked.connect(self.inserttab2)
         self.suivant2.setGeometry(QtCore.QRect(690, 610, 93, 28))
         self.suivant2.setObjectName("suivant2")
         self.stackedWidget.addWidget(self.produit)
@@ -414,6 +427,7 @@ class Ui_MainWindow(object):
         self.listView_2.setGeometry(QtCore.QRect(210, 150, 331, 261))
         self.listView_2.setObjectName("listView_2")
         self.ajouterressource = QtWidgets.QPushButton(self.ressource)
+        self.ajouterressource.clicked.connect(self.getRessources)
         self.ajouterressource.setGeometry(QtCore.QRect(450, 100, 93, 28))
         self.ajouterressource.setObjectName("ajouterressource")
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.ressource)
@@ -436,7 +450,7 @@ class Ui_MainWindow(object):
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem1)
         self.suivant3 = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
-        self.suivant3.clicked.connect(self.next_index)
+        self.suivant3.clicked.connect(self.insertResourcesInTable)
         self.suivant3.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -473,7 +487,7 @@ class Ui_MainWindow(object):
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem2)
         self.suivant4 = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
-        self.suivant4.clicked.connect(self.next_index)
+        self.suivant4.clicked.connect(self.insertMachineProduct)
         self.suivant4.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -510,7 +524,7 @@ class Ui_MainWindow(object):
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem3)
         self.suivant6 = QtWidgets.QPushButton(self.horizontalLayoutWidget_4)
-        self.suivant6.clicked.connect(self.next_index)
+        self.suivant6.clicked.connect(self.maxsales)
         self.suivant6.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -588,6 +602,7 @@ class Ui_MainWindow(object):
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem4)
         self.resoudre_5 = QtWidgets.QPushButton(self.horizontalLayoutWidget_5)
+        self.resoudre_5.clicked.connect(self.resoudreprob2)
         self.resoudre_5.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -783,6 +798,222 @@ class Ui_MainWindow(object):
     def setindex(self,index):
         self.index = index
         self.stackedWidget.setCurrentIndex(self.index)
+    def add_to_list(self):
+        input = self.lineEdit.text()
+        if(input == ""):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Empty input")
+            msg.setInformativeText("Please enter a name before adding it to the list")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+        self.shortestPathData.insert(0, input)
+        self.model1 = QtGui.QStandardItemModel()
+        for i in self.shortestPathData:
+            item = QtGui.QStandardItem(i)
+            self.model1.appendRow(item)
+        self.listView.setModel(self.model1)
+        self.lineEdit.clear()
+    def insertdatashortestpath(self):
+        model = QtGui.QStandardItemModel()
+        n = len(self.shortestPathData)
+        model.setRowCount(n+1)
+        model.setColumnCount(n+1)
+
+        for i in range(n):
+            item_row = QtGui.QStandardItem(self.shortestPathData[n-i - 1])
+            item_column = QtGui.QStandardItem(self.shortestPathData[n-i-1])
+            model.setItem(i+1, 0, item_row)
+            model.setItem(0, i+1, item_column)
+        for i in range(n):
+            item = QtGui.QStandardItem("X")
+            model.setItem(i+1, i+1, item)
+        self.tableView_3.setModel(model)
+        self.next_index()
+
+
+
+    def shortestpath(self):
+        model = self.tableView_3.model()
+        n = model.rowCount()
+        is_valid = True
+        matrix = {}
+        for i in range(1,n):
+            row = []
+            for j in range(1,n):
+                if i!=j:
+                    item = model.item(i, j).text()
+                    if(not(is_float(item))):
+                        msg = QtWidgets.QMessageBox()
+                        msg.setIcon(QtWidgets.QMessageBox.Warning)
+                        msg.setText("Wrong input in cell ("+str(i)+","+str(j)+")")
+                        msg.setInformativeText("Please enter a float number")
+                        msg.setWindowTitle("Error")
+                        msg.exec_()
+                        is_valid = False
+                    else:
+                        matrix[(i,j)] = float(item)
+                else :
+                    matrix[(i,j)] = 0
+        print(matrix)
+        if is_valid:
+            self.paths = matrix
+            self.next_index()
+
+    def getproducts(self):
+        self.duration = int(self.duree.text())
+        productName = self.productname.text()
+
+        # controller the input
+        productNumber = self.produitnomber.value()
+        self.profit[productName] = productNumber
+        self.model2 = QtGui.QStandardItemModel()
+        for i in self.profit:
+            item = QtGui.QStandardItem(i)
+            self.model2.appendRow(item)
+        self.produitlist.setModel(self.model2)
+        self.productname.clear()
+        self.produitnomber.clear()
+
+    def inserttab2(self):
+        model = QtGui.QStandardItemModel()
+        n = len(self.profit.keys())
+        model.setRowCount(n+1)
+        model.setColumnCount(self.duration)
+
+        for i in range(1,n+1):
+            item = QtGui.QStandardItem(list(self.profit.keys())[i-1])
+            model.setItem(i, 0, item)
+        for i in range(1,self.duration):
+            item = QtGui.QStandardItem(str(i))
+            model.setItem(0, i, item)
+        self.tableView_2.setModel(model)
+        self.next_index()
+    def getRessources(self):
+        ressourceName = self.ressourcename.text()
+        ressourceNumber = self.counterressource.value()
+        # print(ressourceName,ressourceNumber)
+        self.ressourcesList[ressourceName] = ressourceNumber
+        self.model3 = QtGui.QStandardItemModel()
+        for i in self.ressourcesList:
+            item = QtGui.QStandardItem(i)
+            self.model3.appendRow(item)
+        self.listView_2.setModel(self.model3)
+        self.ressourcename.clear()
+        self.counterressource.clear()
+    def insertResourcesInTable(self):
+        ListProduct = self.profit.keys()
+        ListRessource = self.ressourcesList.keys()
+        model = QtGui.QStandardItemModel()
+        n = len(ListProduct)
+        m = len(ListRessource)
+        model.setRowCount(n)
+        model.setColumnCount(m)
+        counter = 0
+        for i in ListProduct:
+            item = QtGui.QStandardItem(i)
+            counter += 1
+            model.setItem(counter, 0, item)
+        counter = 0
+        for i in ListRessource:
+            item = QtGui.QStandardItem(i)
+            counter += 1
+            model.setItem(0, counter, item)
+        self.tableView.setModel(model)
+        self.next_index()
+
+    def insertMachineProduct(self):
+        time_req = {}
+        model = self.tableView.model()
+        n = model.rowCount()
+        m = model.columnCount()
+        peoduct_names = [model.item(i, 0).text() for i in range(1,n)]
+
+        for i in range(1,m):
+            machine_name = model.item(0, i).text()
+            time_req[machine_name] = {}
+        for i in range(1,n):
+            for j in range(1,m):
+                machine_name = model.item(0, j).text()
+                product_name = model.item(i, 0).text()
+                if model.item(i, j).text() == "" or not(is_float(model.item(i, j).text())):
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Warning)
+                    msg.setText("wrong input in cell ("+str(i)+","+str(j)+")")
+                    msg.setInformativeText("Please enter a float number")
+                    msg.setWindowTitle("Error")
+                    msg.exec_()
+                    return
+                else :
+                    time_req[machine_name][product_name] = float(model.item(i, j).text())
+        self.time_req = time_req
+        self.next_index()
+    def maxsales(self):
+        self.max_sales = {}
+        model = self.tableView_2.model()
+        n = model.rowCount()
+        m= model.columnCount()
+        for i in range(1,n):
+            for j in range(1,m):
+                product_name = model.item(i, 0).text()
+                month = model.item(0, j).text()
+                if model.item(i, j).text() == "" or not(is_float(model.item(i, j).text())):
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Warning)
+                    msg.setText("wrong input in cell ("+str(i)+","+str(j)+")")
+                    msg.setInformativeText("Please enter a float number")
+                    msg.setWindowTitle("Error")
+                    msg.exec_()
+                    return
+                else :
+                    self.max_sales[(month,product_name)] = float(model.item(i, j).text())
+        print(self.max_sales)
+        self.next_index()
+
+    def resoudreprob2(self):
+        if self.coutStock.text()=="" or not(is_float(self.coutStock.text())):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("wrong input in coutStock")
+            msg.setInformativeText("Please enter a float number")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+        if self.capacitestock.text()=="" or not(is_float(self.capacitestock.text())):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("wrong input in capaciteStock")
+            msg.setInformativeText("Please enter a float number")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+        if self.stockdernier.text()=="" or not(is_float(self.stockdernier.text())):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("wrong input in stockdernier")
+            msg.setInformativeText("Please enter a float number")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+        if self.duretravail.text()=="" or not(is_float(self.duretravail.text())):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("wrong input in duretravail")
+            msg.setInformativeText("Please enter a float number")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+        coutStock = float(self.coutStock.text())
+        capaciteStock = float(self.capacitestock.text())
+        stockdernier = float(self.stockdernier.text())
+        duretravail = float(self.duretravail.text())
+        print(coutStock,capaciteStock,stockdernier,duretravail)
+        self.next_index()
+
+
+
+
 
 if __name__ == "__main__":
     import sys
