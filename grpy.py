@@ -19,7 +19,7 @@ def handle():
 
     machines = ["M1", "M2", "M3", "M4"]
     # number of each machine installed
-    installed = {"M1": 4, "M2": 2, "M3": 3, "M4": 1}
+    installed = {"M1": 0, "M2": 0, "M3": 1, "M4": 0}
 
     time_req = {
         "M1": {"P1": 0.5, "P2": 0.7, "P5": 0.3},
@@ -113,6 +113,10 @@ def handle():
     model.setParam(GRB.Param.PoolSolutions,1000)
     model.setParam(GRB.Param.PoolGap,0.10)
     model.optimize()
+
+
+    if model.Status == GRB.INFEASIBLE:
+        return None
 
 
     num_solutions = model.SolCount
