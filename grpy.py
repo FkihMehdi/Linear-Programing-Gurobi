@@ -7,74 +7,74 @@ from gurobipy import GRB
 
 
 
-def handle():
+def handle(months, profit, installed, time_req, max_sales, holding_cost, max_inventory, store_target, hours_per_month):
     # PARAMETERS
-    duration = 2
-    months = ["durée " + (str(i)) for i in range(1,duration+1)]
+    # months = ["durée " + (str(i)) for i in range(1,duration+1)]
+    products = profit.keys()
+    machines = installed.keys()
 
-
-    products = ["P1", "P2", "P3", "P4", "P5"]
-    profit = {"P1": 10, "P2": 6, "P3": 8, "P4": 4, "P5": 11}
-
-
-    machines = ["M1", "M2", "M3", "M4"]
-    # number of each machine installed
-    installed = {"M1": 0, "M2": 0, "M3": 1, "M4": 0}
-
-    time_req = {
-        "M1": {"P1": 0.5, "P2": 0.7, "P5": 0.3},
-        "M2": {"P1": 0.1, "P2": 0.2, "P4": 0.3},
-        "M3": {"P1": 0.2, "P3": 0.8},
-        "M4": {"P1": 0.05, "P2": 0.03, "P4": 0.07, "P5": 0.1}
-    }
-
-    # market limitations on products
-    max_sales = {
-        ("durée 1", "P1"): 500,
-        ("durée 1", "P2"): 1000,
-        ("durée 1", "P3"): 300,
-        ("durée 1", "P4"): 300,
-        ("durée 1", "P5"): 800,
-
-        ("durée 2", "P1"): 200,
-        ("durée 2", "P2"): 100,
-        ("durée 2", "P3"): 600,
-        ("durée 2", "P4"): 500,
-        ("durée 2", "P5"): 200,
-
-        ("durée 3", "P1"): 0,
-        ("durée 3", "P2"): 400,
-        ("durée 3", "P3"): 300,
-        ("durée 3", "P4"): 150,
-        ("durée 3", "P5"): 300,
-
-        ("durée 4", "P1"): 500,
-        ("durée 4", "P2"): 1000,
-        ("durée 4", "P3"): 300,
-        ("durée 4", "P4"): 300,
-        ("durée 4", "P5"): 800,
-
-        ("durée 5", "P1"): 600,
-        ("durée 5", "P2"): 0,
-        ("durée 5", "P3"): 0,
-        ("durée 5", "P4"): 500,
-        ("durée 5", "P5"): 400,
-
-        ("durée 6", "P1"): 100,
-        ("durée 6", "P2"): 200,
-        ("durée 6", "P3"): 300,
-        ("durée 6", "P4"): 400,
-        ("durée 6", "P5"): 500,
-    }
-
-
-    holding_cost = 0.5 # store cost
-    max_inventory = 100 # store capcity
-    # must have stock at the last month for each product
-    store_target = 50 # store target
-
-    hours_per_month = 8 * 24 # period work duration
-
+    # products = ["P1", "P2", "P3", "P4", "P5"]
+    # profit = {"P1": 10, "P2": 6, "P3": 8, "P4": 4, "P5": 11}
+    #
+    #
+    # machines = ["M1", "M2", "M3", "M4"]
+    # # number of each machine installed
+    # installed = {"M1": 0, "M2": 0, "M3": 1, "M4": 0}
+    #
+    # time_req = {
+    #     "M1": {"P1": 0.5, "P2": 0.7, "P5": 0.3},
+    #     "M2": {"P1": 0.1, "P2": 0.2, "P4": 0.3},
+    #     "M3": {"P1": 0.2, "P3": 0.8},
+    #     "M4": {"P1": 0.05, "P2": 0.03, "P4": 0.07, "P5": 0.1}
+    # }
+    #
+    # # market limitations on products
+    # max_sales = {
+    #     ("durée 1", "P1"): 500,
+    #     ("durée 1", "P2"): 1000,
+    #     ("durée 1", "P3"): 300,
+    #     ("durée 1", "P4"): 300,
+    #     ("durée 1", "P5"): 800,
+    #
+    #     ("durée 2", "P1"): 200,
+    #     ("durée 2", "P2"): 100,
+    #     ("durée 2", "P3"): 600,
+    #     ("durée 2", "P4"): 500,
+    #     ("durée 2", "P5"): 200,
+    #
+    #     ("durée 3", "P1"): 0,
+    #     ("durée 3", "P2"): 400,
+    #     ("durée 3", "P3"): 300,
+    #     ("durée 3", "P4"): 150,
+    #     ("durée 3", "P5"): 300,
+    #
+    #     ("durée 4", "P1"): 500,
+    #     ("durée 4", "P2"): 1000,
+    #     ("durée 4", "P3"): 300,
+    #     ("durée 4", "P4"): 300,
+    #     ("durée 4", "P5"): 800,
+    #
+    #     ("durée 5", "P1"): 600,
+    #     ("durée 5", "P2"): 0,
+    #     ("durée 5", "P3"): 0,
+    #     ("durée 5", "P4"): 500,
+    #     ("durée 5", "P5"): 400,
+    #
+    #     ("durée 6", "P1"): 100,
+    #     ("durée 6", "P2"): 200,
+    #     ("durée 6", "P3"): 300,
+    #     ("durée 6", "P4"): 400,
+    #     ("durée 6", "P5"): 500,
+    # }
+    #
+    #
+    # holding_cost = 0.5 # store cost
+    # max_inventory = 100 # store capcity
+    # # must have stock at the last month for each product
+    # store_target = 50 # store target
+    #
+    # hours_per_month = 8 * 24 # period work duration
+    #
 
 
     model = gp.Model('Problem 2')

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gurobipy as gp
 from gurobipy import GRB
 
