@@ -774,14 +774,35 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_3)
         self.page_4 = QtWidgets.QWidget()
         self.page_4.setObjectName("page_4")
-        self.rescelltower = QtWidgets.QLabel(self.page_4)
-        self.rescelltower.setGeometry(QtCore.QRect(230, 110, 331, 271))
+
+        self.scrollArea = QtWidgets.QScrollArea(self.page_4)
+        self.scrollArea.setGeometry(QtCore.QRect(30, 30, 771, 441))
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+
+        self.rescelltower = QtWidgets.QLabel(self.scrollArea)
+        self.rescelltower.setGeometry(QtCore.QRect(0, 0, 771, 441))
         self.rescelltower.setObjectName("rescelltower")
         self.rescelltower.setStyleSheet("QLabel{\n"
-"    color : green;\n"
-"font-size : 16px;\n"
-"font-weight : bold;\n"
-"}")
+                                        "    color : green;\n"
+                                        "font-size : 16px;\n"
+                                        "font-weight : bold;\n"
+                                        "}")
+
+
+        self.scrollArea.setWidget(self.rescelltower)
+
+        # self.rescelltower = QtWidgets.QLabel(self.page_4)
+        # self.rescelltower.setGeometry(QtCore.QRect(230, 110, 331, 271))
+        # self.rescelltower.setObjectName("rescelltower")
+        # self.rescelltower.setStyleSheet("QLabel{\n"
+        #                                 "    color : green;\n"
+        #                                 "font-size : 16px;\n"
+        #                                 "font-weight : bold;\n"
+        #                                 "}")
+
+
+
 
 
 
@@ -1192,7 +1213,19 @@ class Ui_MainWindow(object):
         self.tableView_6.setModel(model2)
     def insertdataintowerregion(self):
         self.site_coverage_cost = dict()
+
+        if(self.tableView_4.model() == None):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Empty input")
+            msg.setInformativeText("Please enter data before adding it to the list")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+
         model = self.tableView_4.model()
+
+
         n = model.rowCount()
         m = model.columnCount()
 
@@ -1279,6 +1312,7 @@ class Ui_MainWindow(object):
         try :
             res = cell_tower_problem(self.region_population,self.site_coverage_cost,self.allocated_budget)
             data = ""
+            data += "Number of Solution = " + str(len(res)) + "\n"
             for i in range(len(res)):
                 data += "Solution "+str(i+1)+"\n"
                 data += "Tower_Built:\n"
