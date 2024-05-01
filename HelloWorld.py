@@ -11,6 +11,8 @@ import numpy
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from controlinput import is_float
+from grpy import handle
+from shortestPathModel import shortest_path
 
 
 class Ui_MainWindow(object):
@@ -18,10 +20,9 @@ class Ui_MainWindow(object):
     shortestPathData = []
     paths = {}
     profit = {}
-    installed = {}
     time_req = {}
     max_sales = {}
-    ressourcesList = {}
+    ressourcesList = {} #installed ressources
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(815, 678)
@@ -210,6 +211,7 @@ class Ui_MainWindow(object):
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_4.setObjectName("frame_4")
         self.cellTower = QtWidgets.QPushButton(self.frame_4)
+        self.cellTower.clicked.connect(lambda : self.setindex(9))
         self.cellTower.setGeometry(QtCore.QRect(70, 30, 161, 41))
         self.cellTower.setObjectName("cellTower")
         self.horizontalLayout_2.addWidget(self.frame_4)
@@ -307,6 +309,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.precedent = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.precedent.clicked.connect(self.previous_index)
         self.precedent.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -368,11 +371,18 @@ class Ui_MainWindow(object):
         self.label_12.setFont(font)
         self.label_12.setObjectName("label_12")
         self.resultTSP = QtWidgets.QLabel(self.page_3_TSP)
-        self.resultTSP.setGeometry(QtCore.QRect(190, 80, 111, 16))
+        self.resultTSP.setGeometry(QtCore.QRect(190, 80, 400, 20))
         self.resultTSP.setObjectName("resultTSP")
+        self.resultTSP.setStyleSheet("QLabel{\n"
+"    color : green;\n"
+"font-size : 16px;\n"
+"font-weight : bold;\n"          
+"}")
+
         self.commandLinkButton = QtWidgets.QCommandLinkButton(self.page_3_TSP)
         self.commandLinkButton.setGeometry(QtCore.QRect(50, 150, 222, 48))
         self.commandLinkButton.setObjectName("commandLinkButton")
+        self.commandLinkButton.clicked.connect(self.getshortestpath)
         self.stackedWidget.addWidget(self.page_3_TSP)
         self.produit = QtWidgets.QWidget()
         self.produit.setObjectName("produit")
@@ -437,6 +447,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.precedent_2 = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.precedent_2.clicked.connect(self.previous_index)
         self.precedent_2.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -474,6 +485,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.precedent_3 = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
+        self.precedent_3.clicked.connect(self.previous_index)
         self.precedent_3.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -511,6 +523,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.precedent_4 = QtWidgets.QPushButton(self.horizontalLayoutWidget_4)
+        self.precedent_4.clicked.connect(self.previous_index)
         self.precedent_4.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -589,6 +602,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.precedent_5 = QtWidgets.QPushButton(self.horizontalLayoutWidget_5)
+        self.precedent_5.clicked.connect(self.previous_index)
         self.precedent_5.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -639,6 +653,21 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.result)
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
+
+        self.region_number = QtWidgets.QLineEdit(self.page)
+        self.region_number.setGeometry(QtCore.QRect(200, 30, 113, 22))
+        self.region_number.setObjectName("region_number")
+
+        self.tower_number = QtWidgets.QLineEdit(self.page)
+        self.tower_number.setGeometry(QtCore.QRect(200, 80, 113, 22))
+        self.tower_number.setObjectName("tower_number")
+
+        self.ajoutdata = QtWidgets.QPushButton(self.page)
+        self.ajoutdata.setGeometry(QtCore.QRect(350, 30, 93, 28))
+        self.ajoutdata.setObjectName("ajoutdata")
+        self.ajoutdata.clicked.connect(self.getdata)
+
+
         self.tableView_4 = QtWidgets.QTableView(self.page)
         self.tableView_4.setGeometry(QtCore.QRect(30, 180, 771, 321))
         self.tableView_4.setObjectName("tableView_4")
@@ -666,6 +695,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.precedent_6 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
+        self.precedent_6.clicked.connect(self.previous_index)
         self.precedent_6.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -703,6 +733,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.precedent_7 = QtWidgets.QPushButton(self.horizontalLayoutWidget_7)
+        self.precedent_7.clicked.connect(self.previous_index)
         self.precedent_7.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -795,6 +826,10 @@ class Ui_MainWindow(object):
     def next_index(self):
         self.index += 1
         self.stackedWidget.setCurrentIndex(self.index)
+
+    def previous_index(self):
+        self.index -= 1
+        self.stackedWidget.setCurrentIndex(self.index)
     def setindex(self,index):
         self.index = index
         self.stackedWidget.setCurrentIndex(self.index)
@@ -835,6 +870,8 @@ class Ui_MainWindow(object):
 
 
     def shortestpath(self):
+        start = self.lineEdit_7.text()
+        end = self.lineEdit_8.text()
         model = self.tableView_3.model()
         n = model.rowCount()
         is_valid = True
@@ -842,7 +879,7 @@ class Ui_MainWindow(object):
         for i in range(1,n):
             row = []
             for j in range(1,n):
-                if i!=j:
+                if (i!=j and model.item(i,j)!=None and model.item(i, j).text() != "" ):
                     item = model.item(i, j).text()
                     if(not(is_float(item))):
                         msg = QtWidgets.QMessageBox()
@@ -853,14 +890,20 @@ class Ui_MainWindow(object):
                         msg.exec_()
                         is_valid = False
                     else:
-                        matrix[(i,j)] = float(item)
-                else :
-                    matrix[(i,j)] = 0
-        print(matrix)
+                        node1 = model.item(i, 0).text()
+                        node2 = model.item(0, j).text()
+                        matrix[(node1,node2)] = float(item)
+
         if is_valid:
+            value,thePath = shortest_path(start,end,matrix)
+            self.resultTSP.setText(str(value ) + " : "+thePath.__str__())
+            print(thePath)
             self.paths = matrix
             self.next_index()
-
+    def getshortestpath(self):
+        print("getshortestpath")
+        path_to_html_file = "shortest-path.html"
+        QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(path_to_html_file))
     def getproducts(self):
         self.duration = int(self.duree.text())
         productName = self.productname.text()
@@ -881,13 +924,16 @@ class Ui_MainWindow(object):
         n = len(self.profit.keys())
         model.setRowCount(n+1)
         model.setColumnCount(self.duration)
-
+        self.months = ["durée " + (str(i)) for i in range(1,self.duration+1)]
         for i in range(1,n+1):
             item = QtGui.QStandardItem(list(self.profit.keys())[i-1])
             model.setItem(i, 0, item)
-        for i in range(1,self.duration):
-            item = QtGui.QStandardItem(str(i))
-            model.setItem(0, i, item)
+        counter=1
+        #print(self.months)
+        for i in self.months:
+            item = QtGui.QStandardItem(i)
+            model.setItem(0, counter, item)
+            counter += 1
         self.tableView_2.setModel(model)
         self.next_index()
     def getRessources(self):
@@ -968,7 +1014,7 @@ class Ui_MainWindow(object):
                     return
                 else :
                     self.max_sales[(month,product_name)] = float(model.item(i, j).text())
-        print(self.max_sales)
+        #print(self.max_sales)
         self.next_index()
 
     def resoudreprob2(self):
@@ -999,7 +1045,7 @@ class Ui_MainWindow(object):
         if self.duretravail.text()=="" or not(is_float(self.duretravail.text())):
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
-            msg.setText("wrong input in duretravail")
+            msg.setText("wrong input in dure travail")
             msg.setInformativeText("Please enter a float number")
             msg.setWindowTitle("Error")
             msg.exec_()
@@ -1008,8 +1054,29 @@ class Ui_MainWindow(object):
         capaciteStock = float(self.capacitestock.text())
         stockdernier = float(self.stockdernier.text())
         duretravail = float(self.duretravail.text())
-        print(coutStock,capaciteStock,stockdernier,duretravail)
+        v = handle(self.months,self.profit,self.ressourcesList,self.time_req,self.max_sales,coutStock,capaciteStock,stockdernier,duretravail)
+        print(v)
         self.next_index()
+
+    def getdata(self):
+        region_number = int(self.region_number.text())
+        tower_number = int(self.tower_number.text())
+
+        self.listregion = [('Region' + str(i)) for i in range(1,region_number+1)]
+        self.listtower = [('Tower' + str(i)) for i in range(1,tower_number+1)]
+
+        model = QtGui.QStandardItemModel()
+        model.setRowCount(tower_number)
+        model.setColumnCount(region_number)
+
+        for i in range(tower_number):
+            item = QtGui.QStandardItem(self.listtower[i])
+            model.setItem(i+1, 0, item)
+        for i in range(region_number):
+            item = QtGui.QStandardItem(self.listregion[i])
+            model.setItem(0, i+1, item)
+        self.tableView_4.setModel(model)
+
 
 
 
