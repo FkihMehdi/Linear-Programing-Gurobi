@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from typing import Union
+
 import numpy
 # Form implementation generated from reading ui file 'TestUI.ui'
 #
@@ -673,6 +675,7 @@ class Ui_MainWindow(object):
         self.tableView_4.setObjectName("tableView_4")
         self.resoudre_6 = QtWidgets.QPushButton(self.page)
         self.resoudre_6.setGeometry(QtCore.QRect(710, 540, 72, 32))
+        self.resoudre_6.clicked.connect(self.insertdataintowerregion)
         self.resoudre_6.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -1066,17 +1069,42 @@ class Ui_MainWindow(object):
         self.listtower = [('Tower' + str(i)) for i in range(1,tower_number+1)]
 
         model = QtGui.QStandardItemModel()
+        model1 = QtGui.QStandardItemModel()
         model.setRowCount(tower_number)
         model.setColumnCount(region_number)
+        model1.setColumnCount(region_number)
+        model1.setRowCount(2)
 
         for i in range(tower_number):
             item = QtGui.QStandardItem(self.listtower[i])
             model.setItem(i+1, 0, item)
+
+        item = QtGui.QStandardItem("Population")
+        model1.setItem(1,0, item)
         for i in range(region_number):
             item = QtGui.QStandardItem(self.listregion[i])
             model.setItem(0, i+1, item)
-        self.tableView_4.setModel(model)
+            model1.setItem(0, i+1, item)
 
+        self.tableView_5.setModel(model1)
+        self.tableView_4.setModel(model)
+    def insertdataintowerregion(self):
+        self.site_coverage_cost = dict()
+        model = self.tableView_4.model()
+        n = model.rowCount()
+        m = model.columnCount()
+
+        for i in range(1,n):
+            self.site_coverage_cost[i-1] = list()
+            coverge_set = set()
+            for j in range(1,m):
+                value = model.item(i,j).text()
+                if(value == '1'):
+                   coverge_set.add(j-1)
+                elif(value == '0'):
+                    pass
+            self.site_coverage_cost[i-1].append(coverge_set)
+        self.next_index()
 
 
 
