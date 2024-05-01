@@ -71,11 +71,13 @@ def cell_tower_problem(
             print(f"Population coverage: {coverage_percentage}%")
             solutions.append(solution_k)
 
-        return solutions
+        #return solutions
+        sorted_solutions = sorted_array = sorted(solutions, key=lambda x: x['total_cost'])
+        return sorted_solutions
     except Exception as e:
         raise Exception(e)
 
-solutions = cell_tower_problem(
+    solutions = cell_tower_problem(
     {
         0: 523, 1: 690, 2: 420,
         3: 1010, 4: 1200, 5: 5850,
@@ -92,6 +94,6 @@ solutions = cell_tower_problem(
     ,
     2
 )
-print("*" * 50)
-print("*" * 50)
-print(solutions)
+    print("*" * 50)
+    print("*" * 50)
+    print(solutions)

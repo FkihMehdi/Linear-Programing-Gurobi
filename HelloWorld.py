@@ -690,7 +690,7 @@ class Ui_MainWindow(object):
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
         self.tableView_5 = QtWidgets.QTableView(self.page_2)
-        self.tableView_5.setGeometry(QtCore.QRect(20, 221, 781, 111))
+        self.tableView_5.setGeometry(QtCore.QRect(20, 221, 781, 125))
         self.tableView_5.setObjectName("tableView_5")
         self.horizontalLayoutWidget_6 = QtWidgets.QWidget(self.page_2)
         self.horizontalLayoutWidget_6.setGeometry(QtCore.QRect(30, 420, 751, 44))
@@ -776,7 +776,20 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_3)
         self.page_4 = QtWidgets.QWidget()
         self.page_4.setObjectName("page_4")
+        self.rescelltower = QtWidgets.QLabel(self.page_4)
+        self.rescelltower.setGeometry(QtCore.QRect(230, 110, 331, 271))
+        self.rescelltower.setObjectName("rescelltower")
+        self.rescelltower.setStyleSheet("QLabel{\n"
+"    color : green;\n"
+"font-size : 16px;\n"
+"font-weight : bold;\n"
+"}")
+
+
+
         self.stackedWidget.addWidget(self.page_4)
+
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.actionTSP = QtWidgets.QAction(MainWindow)
         self.actionTSP.setObjectName("actionTSP")
@@ -900,11 +913,20 @@ class Ui_MainWindow(object):
                         matrix[(node1,node2)] = float(item)
 
         if is_valid:
-            value,thePath = shortest_path(start,end,matrix)
-            self.resultTSP.setText(str(value ) + " : "+thePath.__str__())
-            print(thePath)
-            self.paths = matrix
-            self.next_index()
+
+            try:
+                value,thePath = shortest_path(start,end,matrix)
+                self.resultTSP.setText(str(value ) + " : "+thePath.__str__())
+                print(thePath)
+                self.paths = matrix
+                self.next_index()
+            except Exception as e:
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("Error")
+                msg.setInformativeText(e.__str__())
+                msg.setWindowTitle("Error")
+                msg.exec_()
     def getshortestpath(self):
         print("getshortestpath")
         path_to_html_file = "shortest-path.html"
@@ -1137,9 +1159,29 @@ class Ui_MainWindow(object):
         for i in range(1,m):
             value = float(model.item(i,1).text())
             self.site_coverage_cost[i-1].append(value)
-        res = cell_tower_problem(self.region_population,self.site_coverage_cost,self.allocated_budget)
-        print(res)
-
+        try :
+            res = cell_tower_problem(self.region_population,self.site_coverage_cost,self.allocated_budget)
+            data = ""
+            for i in range(len(res)):
+                data += "Solution "+str(i+1)+"\n"
+                data += "Tower_Built:\n"
+                for j in range(len(res[i]['towers_built'])):
+                    data += self.listtower[res[i]['towers_built'][j]] + " "
+                data+= "\n"
+                data+="Total Cost:\n"
+                data+= str(res[i]['total_cost']) + "\n"
+                data+=str(res[i]['budget_consumption'])+"\n"
+                data+=str(res[i]['total_population'])+"\n"
+                data+=str(res[i]['coverage_percentage'])+"\n"
+            self.rescelltower.setText(data)
+            self.next_index()
+        except Exception as e:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("Error")
+            msg.setInformativeText(e.__str__())
+            msg.setWindowTitle("Error")
+            msg.exec_()
 
 
 
