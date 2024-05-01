@@ -12,9 +12,9 @@ import numpy
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from cell_tower_coverage import cell_tower_problem
+from CellTowerCoverageModule import cell_tower_problem
 from controlinput import is_float, is_int
-from grpy import handle
+from RessourceModule import handle
 from shortestPathModel import shortest_path
 
 
