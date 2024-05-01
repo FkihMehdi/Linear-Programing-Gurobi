@@ -27,6 +27,12 @@ def shortest_path(start:str,end:str,dist:dict[(str,str),float]):
     # Create a new model
     shortest_path_model=Model("Shortest Path Model") 
     # shortest_path_model.params.LogToConsole = 0
+    shortest_path_model.params.DualReductions  = 0
+    shortest_path_model.params.PoolSolutions = 5
+    shortest_path_model.params.PoolSearchMode = 2
+    shortest_path_model.params.PoolGap = 0.001
+    
+    
     
     vertices = { i for i,_ in dist.keys()}.union({ j for _,j in dist.keys()})
     
@@ -37,22 +43,24 @@ def shortest_path(start:str,end:str,dist:dict[(str,str),float]):
     shortest_path_model.setObjective(quicksum(vars[i,j]*dist[i,j] for i,j in dist.keys()), GRB.MINIMIZE)
 
     # Add constraints
-    shortest_path_model.addConstr(vars.sum(start, '*') == 1,'Edges out of start')
-    shortest_path_model.addConstr(vars.sum('*', end) == 1, 'Edges into end')
+    shortest_path_model.addConstr(vars.sum(start, '*')== 1,'Edges out of start')
+    shortest_path_model.addConstr(vars.sum('*', end)  == 1, 'Edges into end')
     shortest_path_model.addConstrs(vars.sum('*', c) == vars.sum(c, '*') for c in vertices if c != start and c != end)
 
     # Optimize model
     shortest_path_model.optimize()
     print("le nombre de solution est : ",shortest_path_model.SolCount)
+    print("le status de solution est : ",shortest_path_model.status)
     
     # Checking the status of the model
     if(shortest_path_model.status == GRB.OPTIMAL):
         print("Une solution optimale est trouvée")
     elif(shortest_path_model.status == GRB.INFEASIBLE):
         raise Exception("Il n'existe pas de chemin entre les deux noeud")
-    elif shortest_path_model.status == GRB.INF_OR_UNBD:
+    elif shortest_path_model.status in [GRB.INF_OR_UNBD, GRB.INFINITY, GRB.UNBOUNDED]:
         raise Exception("Un Cycle negatif est detecté")
-    
+    else:
+        raise Exception("Le problème n'est pas résolu",shortest_path_model.status)
     # Building the graph 
     edges = []
     for var in shortest_path_model.getVars():
@@ -79,26 +87,41 @@ def shortest_path(start:str,end:str,dist:dict[(str,str),float]):
     graphDisplayer.display_graph(nodes, edges)
     
     # Building the path
-    path = [start]
-    current = start
-    while current != end:
-        for i,j in dist.keys():
-            if vars[i,j].x == 1 and i == current:
-                path.append(j)
-                current = j
-                break
-    return shortest_path_model.objVal, path
+    paths = []
+    mapperPairToIndex = {pair:i for i,pair in enumerate(dist.keys())}
+    numberOfSolutions = shortest_path_model.SolCount
+    for i in range(numberOfSolutions):
+        shortest_path_model.setParam(GRB.Param.SolutionNumber, i)
+        values = shortest_path_model.Xn
+        path = []
+        current = start
+        path.append(current)
+        while current != end:
+            for i,j in dist.keys():
+                if values[mapperPairToIndex[i,j]] == 1 and i == current:
+                    path.append(j)
+                    current = j
+                    break
+        paths.append(path)
+ 
+    return shortest_path_model.objVal, paths
     
     
 if __name__ == "__main__":
     dist = {
-    ("1","2"): 1,
-    ("2","6"): 1,
-    ("1","6"): 2,
+    ("1","2"): 2,
+    ("2","1"): -2,
+    # ("3","2"): 1,
+    # ("1","4"): 1,
+    # ("4","2"): 1,
+    # ("1","5"): 1,
+    # ("5","2"): 1,
+    # ("1","6"): 1,
+    # ("6","2"): 1,
     # ("6","1"): -3,
     }
     start = "1"
-    end = "6"   
+    end = "1"      
     try:
         obj,path = shortest_path(start,end,dist)
         print ("le cout du chemin le plus court est : ",obj)
