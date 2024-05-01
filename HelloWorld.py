@@ -12,6 +12,7 @@ import numpy
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from cell_tower_coverage import cell_tower_problem
 from controlinput import is_float
 from grpy import handle
 from shortestPathModel import shortest_path
@@ -712,7 +713,7 @@ class Ui_MainWindow(object):
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem5)
         self.suivant5 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
-        self.suivant5.clicked.connect(self.next_index)
+        self.suivant5.clicked.connect(self.regionpopulation)
         self.suivant5.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -750,6 +751,7 @@ class Ui_MainWindow(object):
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem6)
         self.resoudre_8 = QtWidgets.QPushButton(self.horizontalLayoutWidget_7)
+        self.resoudre_8.clicked.connect(self.resoudrecellTower)
         self.resoudre_8.setStyleSheet("QPushButton{\n"
 "    background : #468189;\n"
 "    width : 70px;\n"
@@ -1058,7 +1060,7 @@ class Ui_MainWindow(object):
         stockdernier = float(self.stockdernier.text())
         duretravail = float(self.duretravail.text())
         v = handle(self.months,self.profit,self.ressourcesList,self.time_req,self.max_sales,coutStock,capaciteStock,stockdernier,duretravail)
-        print(v)
+        #print(v)
         self.next_index()
 
     def getdata(self):
@@ -1074,20 +1076,30 @@ class Ui_MainWindow(object):
         model.setColumnCount(region_number)
         model1.setColumnCount(region_number)
         model1.setRowCount(2)
+        model2 = QtGui.QStandardItemModel()
+        model2.setRowCount(tower_number)
+        model2.setColumnCount(2)
+
+        item = QtGui.QStandardItem("Cost")
+        model.setItem(0, 1, item)
 
         for i in range(tower_number):
             item = QtGui.QStandardItem(self.listtower[i])
             model.setItem(i+1, 0, item)
+            item = QtGui.QStandardItem(self.listtower[i])
+            model2.setItem(i+1, 0, item)
 
         item = QtGui.QStandardItem("Population")
         model1.setItem(1,0, item)
         for i in range(region_number):
             item = QtGui.QStandardItem(self.listregion[i])
             model.setItem(0, i+1, item)
+            item = QtGui.QStandardItem(self.listregion[i])
             model1.setItem(0, i+1, item)
 
         self.tableView_5.setModel(model1)
         self.tableView_4.setModel(model)
+        self.tableView_6.setModel(model2)
     def insertdataintowerregion(self):
         self.site_coverage_cost = dict()
         model = self.tableView_4.model()
@@ -1098,6 +1110,8 @@ class Ui_MainWindow(object):
             self.site_coverage_cost[i-1] = list()
             coverge_set = set()
             for j in range(1,m):
+                if (model.item(i,j) == None):
+                    continue
                 value = model.item(i,j).text()
                 if(value == '1'):
                    coverge_set.add(j-1)
@@ -1106,6 +1120,25 @@ class Ui_MainWindow(object):
             self.site_coverage_cost[i-1].append(coverge_set)
         self.next_index()
 
+    def regionpopulation(self):
+        model = self.tableView_5.model()
+        self.region_population = {}
+        n = model.columnCount()
+        print("n = ",n)
+        for i in range(1,n):
+            population = int(model.item(1,i).text())
+            self.region_population[i-1] = population
+        self.next_index()
+    def resoudrecellTower(self):
+        self.allocated_budget = float(self.allocatedbudget.text())
+
+        model = self.tableView_6.model()
+        m = model.rowCount()
+        for i in range(1,m):
+            value = float(model.item(i,1).text())
+            self.site_coverage_cost[i-1].append(value)
+        res = cell_tower_problem(self.region_population,self.site_coverage_cost,self.allocated_budget)
+        print(res)
 
 
 
