@@ -19,7 +19,7 @@ Returns
 float
     The cost of the shortest path.
 list
-    The shortest path.
+    List of the shortest paths.
 
 
 """
