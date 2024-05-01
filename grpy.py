@@ -39,7 +39,7 @@ def handle(periods, gain, installed, time_req, max_do, holding_cost, max_invento
 
     # ressource capacity
     capacity = model.addConstrs((gp.quicksum(time_req[ressource][task] * do[period,task] for task in time_req[ressource]) <= total_work * installed[ressource] for ressource in ressources for period in periods), name="Capacity")
-
+    task_assignment = model.addConstrs((gp.quicksum(time_req[resource][task] * installed[resource] for task in tasks) >= 0.00001 for resource in ressources),name="Task_Assignment")
 
 
 
@@ -108,67 +108,67 @@ def handle(periods, gain, installed, time_req, max_do, holding_cost, max_invento
     return solutions
 
 
-periods = ["durée" + str(i) for i in range(1,6)]
-gain = {
-    "P1": 10, "P2": 6, "P3": 8, "P4": 4, "P5": 11
-}
-installed = {
-    "M1": 1, "M2": 1, "M3": 1, "M4": 1
-}
-time_req = {
-        "M1": {"P1": 0.5, "P2": 0.7, "P5": 0.3},
-        "M2": {"P1": 0.1, "P2": 0.2, "P4": 0.3},
-        "M3": {"P1": 0.2, "P3": 0.8},
-        "M4": {"P1": 0.05, "P2": 0.03, "P4": 0.07, "P5": 0.1}
-}
+# periods = ["durée" + str(i) for i in range(1,6)]
+# gain = {
+#     "P1": 10, "P2": 6, "P3": 8, "P4": 4, "P5": 11
+# }
+# installed = {
+#     "M1": 1, "M2": 1, "M3": 1, "M4": 1
+# }
+# time_req = {
+#         "M1": {"P1": 0.5, "P2": 0.7, "P5": 0.3},
+#         "M2": {"P1": 0.1, "P2": 0.2, "P4": 0.3},
+#         "M3": {"P1": 0.2, "P3": 0.8},
+#         "M4": {"P1": 0.05, "P2": 0.03, "P4": 0.07, "P5": 0.1}
+# }
+#
+# max_do = {
+#         ("durée 1", "P1"): 500,
+#         ("durée 1", "P2"): 1000,
+#         ("durée 1", "P3"): 300,
+#         ("durée 1", "P4"): 300,
+#         ("durée 1", "P5"): 800,
+#
+#         ("durée 2", "P1"): 200,
+#         ("durée 2", "P2"): 100,
+#         ("durée 2", "P3"): 600,
+#         ("durée 2", "P4"): 500,
+#         ("durée 2", "P5"): 200,
+#
+#         ("durée 3", "P1"): 0,
+#         ("durée 3", "P2"): 400,
+#         ("durée 3", "P3"): 300,
+#         ("durée 3", "P4"): 150,
+#         ("durée 3", "P5"): 300,
+#
+#         ("durée 4", "P1"): 500,
+#         ("durée 4", "P2"): 1000,
+#         ("durée 4", "P3"): 300,
+#         ("durée 4", "P4"): 300,
+#         ("durée 4", "P5"): 800,
+#
+#         ("durée 5", "P1"): 600,
+#         ("durée 5", "P2"): 0,
+#         ("durée 5", "P3"): 0,
+#         ("durée 5", "P4"): 500,
+#         ("durée 5", "P5"): 400,
+#
+#         ("durée 6", "P1"): 100,
+#         ("durée 6", "P2"): 200,
+#         ("durée 6", "P3"): 300,
+#         ("durée 6", "P4"): 400,
+#         ("durée 6", "P5"): 500,
+# }
+#
     
-max_do = {
-        ("durée 1", "P1"): 500,
-        ("durée 1", "P2"): 1000,
-        ("durée 1", "P3"): 300,
-        ("durée 1", "P4"): 300,
-        ("durée 1", "P5"): 800,
-    
-        ("durée 2", "P1"): 200,
-        ("durée 2", "P2"): 100,
-        ("durée 2", "P3"): 600,
-        ("durée 2", "P4"): 500,
-        ("durée 2", "P5"): 200,
-    
-        ("durée 3", "P1"): 0,
-        ("durée 3", "P2"): 400,
-        ("durée 3", "P3"): 300,
-        ("durée 3", "P4"): 150,
-        ("durée 3", "P5"): 300,
-    
-        ("durée 4", "P1"): 500,
-        ("durée 4", "P2"): 1000,
-        ("durée 4", "P3"): 300,
-        ("durée 4", "P4"): 300,
-        ("durée 4", "P5"): 800,
-    
-        ("durée 5", "P1"): 600,
-        ("durée 5", "P2"): 0,
-        ("durée 5", "P3"): 0,
-        ("durée 5", "P4"): 500,
-        ("durée 5", "P5"): 400,
-    
-        ("durée 6", "P1"): 100,
-        ("durée 6", "P2"): 200,
-        ("durée 6", "P3"): 300,
-        ("durée 6", "P4"): 400,
-        ("durée 6", "P5"): 500,
-}
-    
-    
-holding_cost = 0.5 # store cost
-max_inventory = 100 # store capcity
-# must have stock at the last period for each task
-store_target = 0 # store target
-    
-total_work = 8 * 24 # period work duration
-
-handle(periods, gain, installed, time_req, max_do, holding_cost, max_inventory, store_target, total_work)
+# holding_cost = 0.5 # store cost
+# max_inventory = 100 # store capcity
+# # must have stock at the last period for each task
+# store_target = 0 # store target
+#
+# total_work = 8 * 24 # period work duration
+#
+# handle(periods, gain, installed, time_req, max_do, holding_cost, max_inventory, store_target, total_work)
 
 
 

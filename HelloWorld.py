@@ -406,7 +406,7 @@ class Ui_MainWindow(object):
         self.productname = QtWidgets.QLineEdit(self.produit)
         self.productname.setGeometry(QtCore.QRect(210, 120, 113, 22))
         self.productname.setObjectName("productname")
-        self.produitnomber = QtWidgets.QSpinBox(self.produit)
+        self.produitnomber = QtWidgets.QLineEdit(self.produit)
         self.produitnomber.setGeometry(QtCore.QRect(340, 120, 101, 22))
         self.produitnomber.setObjectName("produitnomber")
         self.ajouter2 = QtWidgets.QPushButton(self.produit)
@@ -560,9 +560,9 @@ class Ui_MainWindow(object):
         self.capacitestock = QtWidgets.QLineEdit(self.info_prob2)
         self.capacitestock.setGeometry(QtCore.QRect(220, 80, 113, 22))
         self.capacitestock.setObjectName("capacitestock")
-        self.stockdernier = QtWidgets.QLineEdit(self.info_prob2)
-        self.stockdernier.setGeometry(QtCore.QRect(270, 130, 113, 22))
-        self.stockdernier.setObjectName("stockdernier")
+        # self.stockdernier = QtWidgets.QLineEdit(self.info_prob2)
+        # self.stockdernier.setGeometry(QtCore.QRect(270, 130, 113, 22))
+        # self.stockdernier.setObjectName("stockdernier")
         self.duretravail = QtWidgets.QLineEdit(self.info_prob2)
         self.duretravail.setGeometry(QtCore.QRect(290, 180, 113, 22))
         self.duretravail.setObjectName("duretravail")
@@ -642,17 +642,17 @@ class Ui_MainWindow(object):
         self.label_8.setFont(font)
         self.label_8.setObjectName("label_8")
         self.label_9 = QtWidgets.QLabel(self.result)
-        self.label_9.setGeometry(QtCore.QRect(130, 25, 141, 21))
+        self.label_9.setGeometry(QtCore.QRect(130, 25, 400, 500))
         self.label_9.setObjectName("label_9")
-        self.table1_1 = QtWidgets.QTableView(self.result)
-        self.table1_1.setGeometry(QtCore.QRect(30, 80, 381, 251))
-        self.table1_1.setObjectName("table1_1")
-        self.table1_2 = QtWidgets.QTableView(self.result)
-        self.table1_2.setGeometry(QtCore.QRect(420, 80, 381, 251))
-        self.table1_2.setObjectName("table1_2")
-        self.table1_3 = QtWidgets.QTableView(self.result)
-        self.table1_3.setGeometry(QtCore.QRect(220, 350, 381, 251))
-        self.table1_3.setObjectName("table1_3")
+        # self.table1_1 = QtWidgets.QTableView(self.result)
+        # self.table1_1.setGeometry(QtCore.QRect(30, 80, 381, 251))
+        # self.table1_1.setObjectName("table1_1")
+        # self.table1_2 = QtWidgets.QTableView(self.result)
+        # self.table1_2.setGeometry(QtCore.QRect(420, 80, 381, 251))
+        # self.table1_2.setObjectName("table1_2")
+        # self.table1_3 = QtWidgets.QTableView(self.result)
+        # self.table1_3.setGeometry(QtCore.QRect(220, 350, 381, 251))
+        # self.table1_3.setObjectName("table1_3")
         self.stackedWidget.addWidget(self.result)
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
@@ -936,7 +936,16 @@ class Ui_MainWindow(object):
         productName = self.productname.text()
 
         # controller the input
-        productNumber = self.produitnomber.value()
+        if is_float(self.produitnomber.text()) == False:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("wrong input in product number")
+            msg.setInformativeText("Please enter a float number")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+
+        productNumber = float(self.produitnomber.text())
         self.profit[productName] = productNumber
         self.model2 = QtGui.QStandardItemModel()
         for i in self.profit:
@@ -1061,14 +1070,14 @@ class Ui_MainWindow(object):
             msg.setWindowTitle("Error")
             msg.exec_()
             return
-        if self.stockdernier.text()=="" or not(is_float(self.stockdernier.text())):
-            msg = QtWidgets.QMessageBox()
-            msg.setIcon(QtWidgets.QMessageBox.Warning)
-            msg.setText("wrong input in stockdernier")
-            msg.setInformativeText("Please enter a float number")
-            msg.setWindowTitle("Error")
-            msg.exec_()
-            return
+        # if self.stockdernier.text()=="" or not(is_float(self.stockdernier.text())):
+        #     msg = QtWidgets.QMessageBox()
+        #     msg.setIcon(QtWidgets.QMessageBox.Warning)
+        #     msg.setText("wrong input in stockdernier")
+        #     msg.setInformativeText("Please enter a float number")
+        #     msg.setWindowTitle("Error")
+        #     msg.exec_()
+        #     return
         if self.duretravail.text()=="" or not(is_float(self.duretravail.text())):
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -1077,11 +1086,36 @@ class Ui_MainWindow(object):
             msg.setWindowTitle("Error")
             msg.exec_()
             return
+
         coutStock = float(self.coutStock.text())
         capaciteStock = float(self.capacitestock.text())
-        stockdernier = float(self.stockdernier.text())
+        # stockdernier = float(self.stockdernier.text())
         duretravail = float(self.duretravail.text())
-        v = handle(self.months,self.profit,self.ressourcesList,self.time_req,self.max_sales,coutStock,capaciteStock,stockdernier,duretravail)
+        v = handle(self.months,self.profit,self.ressourcesList,self.time_req,self.max_sales,coutStock,capaciteStock,0,duretravail)
+        if (len(v) == 0):
+            self.label_9.setStyleSheet(
+                "QLabel{\n"
+                "    color : red;\n"
+                "font-size : 16px;\n"
+                "font-weight : bold;\n"
+                "}"
+            )
+            self.label_9.setText("No solution")
+        else:
+            self.label_9.setStyleSheet(
+                "QLabel{\n"
+                "    color : green;\n"
+                "font-size : 16px;\n"
+                "font-weight : bold;\n"
+                "}"
+            )
+            data = "Number of Solution = " + str(len(v)) + "\n"
+            for i in range(len(v)):
+                data += "objective_value : \n" + str(v[i]['objective_value']) + "\n"
+                data += "tasks plan : \n" + str(v[i]['tasks_plan']) + "\n"
+                data += "make_plan : \n"+str(v[i]['make_plan']) + "\n"
+                data += "inventory_plan : \n"+str(v[i]['inventory_plan']) + "\n"
+            self.label_9.setText(data)
         #print(v)
         self.next_index()
 
@@ -1152,11 +1186,30 @@ class Ui_MainWindow(object):
             self.region_population[i-1] = population
         self.next_index()
     def resoudrecellTower(self):
+
+        if not(is_float(self.allocatedbudget.text())):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("wrong input in allocated budget")
+            msg.setInformativeText("Please enter a float number")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+
+
         self.allocated_budget = float(self.allocatedbudget.text())
 
         model = self.tableView_6.model()
         m = model.rowCount()
         for i in range(1,m):
+            if not(is_float(model.item(i,1).text())):
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("wrong input in cell ("+str(i)+",1)")
+                msg.setInformativeText("Please enter a float number")
+                msg.setWindowTitle("Error")
+                msg.exec_()
+                return
             value = float(model.item(i,1).text())
             self.site_coverage_cost[i-1].append(value)
         try :
@@ -1170,9 +1223,9 @@ class Ui_MainWindow(object):
                 data+= "\n"
                 data+="Total Cost:\n"
                 data+= str(res[i]['total_cost']) + "\n"
-                data+=str(res[i]['budget_consumption'])+"\n"
-                data+=str(res[i]['total_population'])+"\n"
-                data+=str(res[i]['coverage_percentage'])+"\n"
+                data+="budget consumption : " +str(res[i]['budget_consumption'])+"%"+ "\n"
+                data+="total population : "+str(res[i]['total_population'])+"\n"
+                data+="coverage percentage : "+str(res[i]['coverage_percentage'])+"%"+ "\n"
             self.rescelltower.setText(data)
             self.next_index()
         except Exception as e:
