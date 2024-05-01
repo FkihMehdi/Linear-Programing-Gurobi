@@ -373,17 +373,23 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label_12.setFont(font)
         self.label_12.setObjectName("label_12")
-        self.resultTSP = QtWidgets.QLabel(self.page_3_TSP)
-        self.resultTSP.setGeometry(QtCore.QRect(190, 80, 400, 20))
+
+        self.scrollArea2 = QtWidgets.QScrollArea(self.page_3_TSP)
+        self.scrollArea2.setGeometry(QtCore.QRect(190,80,400,500))
+        self.scrollArea2.setWidgetResizable(True)
+
+
+        self.resultTSP = QtWidgets.QLabel(self.scrollArea2)
+        self.resultTSP.setGeometry(QtCore.QRect(0,0 , 400, 500))
         self.resultTSP.setObjectName("resultTSP")
         self.resultTSP.setStyleSheet("QLabel{\n"
 "    color : green;\n"
 "font-size : 16px;\n"
 "font-weight : bold;\n"          
 "}")
-
+        self.scrollArea2.setWidget(self.resultTSP)
         self.commandLinkButton = QtWidgets.QCommandLinkButton(self.page_3_TSP)
-        self.commandLinkButton.setGeometry(QtCore.QRect(50, 150, 222, 48))
+        self.commandLinkButton.setGeometry(QtCore.QRect(640, 570, 151, 41))
         self.commandLinkButton.setObjectName("commandLinkButton")
         self.commandLinkButton.clicked.connect(self.getshortestpath)
         self.stackedWidget.addWidget(self.page_3_TSP)
@@ -935,7 +941,12 @@ class Ui_MainWindow(object):
 
             try:
                 value,thePath = shortest_path(start,end,matrix)
-                self.resultTSP.setText(str(value ) + " : "+thePath.__str__())
+                data = "Shortest path from "+start+" to "+end+" is "+str(value ) + " with paths: \n"
+                for i in thePath:
+                    for j in i:
+                        data += j + " -> "
+                    data+="\n"
+                self.resultTSP.setText(data)
                 print(thePath)
                 self.paths = matrix
                 self.next_index()
