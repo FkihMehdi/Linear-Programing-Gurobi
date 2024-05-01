@@ -13,7 +13,7 @@ import numpy
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from cell_tower_coverage import cell_tower_problem
-from controlinput import is_float
+from controlinput import is_float, is_int
 from grpy import handle
 from shortestPathModel import shortest_path
 
@@ -582,14 +582,10 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
-        self.label_6 = QtWidgets.QLabel(self.info_prob2)
-        self.label_6.setGeometry(QtCore.QRect(30, 130, 231, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.label_6.setFont(font)
-        self.label_6.setObjectName("label_6")
         self.label_7 = QtWidgets.QLabel(self.info_prob2)
         self.label_7.setGeometry(QtCore.QRect(30, 180, 251, 20))
         font = QtGui.QFont()
@@ -660,10 +656,12 @@ class Ui_MainWindow(object):
         self.region_number = QtWidgets.QLineEdit(self.page)
         self.region_number.setGeometry(QtCore.QRect(200, 30, 113, 22))
         self.region_number.setObjectName("region_number")
+        self.region_number.setPlaceholderText("region number")
 
         self.tower_number = QtWidgets.QLineEdit(self.page)
         self.tower_number.setGeometry(QtCore.QRect(200, 80, 113, 22))
         self.tower_number.setObjectName("tower_number")
+        self.tower_number.setPlaceholderText("tower nubmer")
 
         self.ajoutdata = QtWidgets.QPushButton(self.page)
         self.ajoutdata.setGeometry(QtCore.QRect(350, 30, 93, 28))
@@ -801,7 +799,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.tspbutton.setText(_translate("MainWindow", "TSP"))
+        self.tspbutton.setText(_translate("MainWindow", "Chemin le plus court"))
         self.ressources.setText(_translate("MainWindow", "Ressources"))
         self.cellTower.setText(_translate("MainWindow", "cellTower"))
         self.suivant1.setText(_translate("MainWindow", "Suivant >"))
@@ -816,6 +814,7 @@ class Ui_MainWindow(object):
         self.commandLinkButton.setText(_translate("MainWindow", "chemin"))
         self.label_2.setText(_translate("MainWindow", "durée"))
         self.ajouter2.setText(_translate("MainWindow", "Ajouter"))
+        self.ajoutdata.setText(_translate("MainWindow", "Ajouter"))
         self.suivant2.setText(_translate("MainWindow", "Suivant >"))
         self.label_4.setText(_translate("MainWindow", "Ressources"))
         self.ajouterressource.setText(_translate("MainWindow", "Ajouter"))
@@ -827,7 +826,6 @@ class Ui_MainWindow(object):
         self.suivant6.setText(_translate("MainWindow", "suivant >"))
         self.label_3.setText(_translate("MainWindow", "cout de stockage"))
         self.label_5.setText(_translate("MainWindow", "Capacité de stockage"))
-        self.label_6.setText(_translate("MainWindow", "stockage dernière periode"))
         self.label_7.setText(_translate("MainWindow", "durée de travail par periode"))
         self.precedent_5.setText(_translate("MainWindow", "Precedent"))
         self.resoudre_5.setText(_translate("MainWindow", "résoudre"))
@@ -932,11 +930,29 @@ class Ui_MainWindow(object):
         path_to_html_file = "shortest-path.html"
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(path_to_html_file))
     def getproducts(self):
+        if(self.duree.text() == "" or not(is_int(self.duree.text()))) or int(self.duree.text()) <= 0:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("wrong input in duration")
+            msg.setInformativeText("Please enter an integer number")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+
         self.duration = int(self.duree.text())
+        if(self.productname.text() == ""):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("empty input in product name")
+            msg.setInformativeText("Please enter a name before adding it to the list")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+
         productName = self.productname.text()
 
         # controller the input
-        if is_float(self.produitnomber.text()) == False:
+        if self.produitnomber.text() == "" or is_float(self.produitnomber.text()) == False or float(self.produitnomber.text()) < 0:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setText("wrong input in product number")
@@ -1120,6 +1136,24 @@ class Ui_MainWindow(object):
         self.next_index()
 
     def getdata(self):
+        if self.region_number.text()=="" or not(is_int(self.region_number.text())) or int(self.region_number.text()) < 0:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("wrong input in region number")
+            msg.setInformativeText("Please enter an integer number")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+
+        if self.tower_number.text()=="" or not(is_int(self.tower_number.text())):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("wrong input in tower number")
+            msg.setInformativeText("Please enter an integer number")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+
         region_number = int(self.region_number.text())
         tower_number = int(self.tower_number.text())
 
@@ -1137,7 +1171,7 @@ class Ui_MainWindow(object):
         model2.setColumnCount(2)
 
         item = QtGui.QStandardItem("Cost")
-        model.setItem(0, 1, item)
+        model2.setItem(0, 1, item)
 
         for i in range(tower_number):
             item = QtGui.QStandardItem(self.listtower[i])
@@ -1171,8 +1205,14 @@ class Ui_MainWindow(object):
                 value = model.item(i,j).text()
                 if(value == '1'):
                    coverge_set.add(j-1)
-                elif(value == '0'):
-                    pass
+                elif(value != '0' and value != ''):
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Warning)
+                    msg.setText("wrong input in cell ("+str(i)+","+str(j)+")")
+                    msg.setInformativeText("Please enter 0 or 1")
+                    msg.setWindowTitle("Error")
+                    msg.exec_()
+                    return
             self.site_coverage_cost[i-1].append(coverge_set)
         self.next_index()
 
@@ -1182,6 +1222,22 @@ class Ui_MainWindow(object):
         n = model.columnCount()
         print("n = ",n)
         for i in range(1,n):
+            if(not(is_int(model.item(1,i).text()))):
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("wrong input in cell ("+str(1)+","+str(i)+")")
+                msg.setInformativeText("Please enter an integer number")
+                msg.setWindowTitle("Error")
+                msg.exec_()
+                return
+            if(int(model.item(1,i).text()) < 0):
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.setText("wrong input in cell ("+str(1)+","+str(i)+")")
+                msg.setInformativeText("Please enter a positive integer number")
+                msg.setWindowTitle("Error")
+                msg.exec_()
+                return
             population = int(model.item(1,i).text())
             self.region_population[i-1] = population
         self.next_index()
@@ -1196,6 +1252,14 @@ class Ui_MainWindow(object):
             msg.exec_()
             return
 
+        if(float(self.allocatedbudget.text()) < 0):
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setText("wrong input in allocated budget")
+            msg.setInformativeText("Please enter a positive float number")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
 
         self.allocated_budget = float(self.allocatedbudget.text())
 
