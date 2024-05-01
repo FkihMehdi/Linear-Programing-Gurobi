@@ -945,6 +945,7 @@ class Ui_MainWindow(object):
                 for i in thePath:
                     for j in i:
                         data += j + " -> "
+                    data = data[:-3]
                     data+="\n"
                 self.resultTSP.setText(data)
                 print(thePath)
