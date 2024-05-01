@@ -35,6 +35,10 @@ def shortest_path(start:str,end:str,dist:dict[(str,str),float]):
     
     
     vertices = { i for i,_ in dist.keys()}.union({ j for _,j in dist.keys()})
+    if start not in vertices:
+        raise Exception("Le noeud de départ n'existe pas")
+    if end not in vertices:
+        raise Exception("Le noeud de fin n'existe pas")
     
     # Create variables
     vars = shortest_path_model.addVars(dist.keys(), obj=dist, vtype=GRB.INTEGER, name='x',lb=0)
@@ -108,20 +112,23 @@ def shortest_path(start:str,end:str,dist:dict[(str,str),float]):
     
     
 if __name__ == "__main__":
+#     A B 5
+# B C 2
+# C D -1
+# D E -1
+# E C -1
+# C F 5
     dist = {
-    ("1","2"): 2,
-    ("2","1"): -2,
-    # ("3","2"): 1,
-    # ("1","4"): 1,
-    # ("4","2"): 1,
-    # ("1","5"): 1,
-    # ("5","2"): 1,
-    # ("1","6"): 1,
-    # ("6","2"): 1,
-    # ("6","1"): -3,
+   ("A", "B"): 5,
+    ("B", "C"): 2,
+    ("C", "D"): -1,
+    ("D", "E"): -1,
+    ("E", "C"): -1,
+    ("C", "F"): 5
+   
     }
-    start = "1"
-    end = "1"      
+    start = "A"
+    end = "F"      
     try:
         obj,path = shortest_path(start,end,dist)
         print ("le cout du chemin le plus court est : ",obj)
