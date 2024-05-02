@@ -1329,18 +1329,18 @@ class Ui_MainWindow(object):
         try :
             res = cell_tower_problem(self.region_population,self.site_coverage_cost,self.allocated_budget)
             data = ""
-            data += "Number of Solution = " + str(len(res)) + "\n"
+            data += "Nombre de  Solution = " + str(len(res)) + "\n"
             for i in range(len(res)):
                 data += "Solution "+str(i+1)+"\n"
-                data += "Tower_Built:\n"
+                data += "Construction de la tour:\n"
                 for j in range(len(res[i]['towers_built'])):
                     data += self.listtower[res[i]['towers_built'][j]] + " "
                 data+= "\n"
-                data+="Total Cost:\n"
+                data+="Coût total : \n"
                 data+= str(res[i]['total_cost']) + "\n"
-                data+="budget consumption : " +str(res[i]['budget_consumption'])+"%"+ "\n"
-                data+="total population : "+str(res[i]['total_population'])+"\n"
-                data+="coverage percentage : "+str(res[i]['coverage_percentage'])+"%"+ "\n"
+                data+="consommation budgétaire : " +str(res[i]['budget_consumption'])+"%"+ "\n"
+                data+="Population Totale : "+str(res[i]['total_population'])+"\n"
+                data+="pourcentage de couverture : "+str(res[i]['coverage_percentage'])+"%"+ "\n"
             self.rescelltower.setText(data)
             self.next_index()
         except Exception as e:
