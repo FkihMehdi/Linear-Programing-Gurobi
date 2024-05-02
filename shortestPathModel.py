@@ -24,6 +24,8 @@ list
 
 """
 def shortest_path(start:str,end:str,dist:dict[(str,str),float]):
+    if start==end:
+        raise Exception("Le noeud de depart est le meme que le noeud d'arrivee")
     # Create a new model
     shortest_path_model=Model("Shortest Path Model") 
     # shortest_path_model.params.LogToConsole = 0

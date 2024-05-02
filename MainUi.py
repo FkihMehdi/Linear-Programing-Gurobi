@@ -285,6 +285,21 @@ class Ui_MainWindow(object):
 "}")
         self.ajouter.setObjectName("ajouter")
 
+
+        self.clearButton = QtWidgets.QPushButton(self.page_1_TSP)
+        self.clearButton.setGeometry(306,80,93,28)
+        self.ajouter.setStyleSheet("QPushButton{\n"
+                                   "    background : #468189;\n"
+                                   "    width : 70px;\n"
+                                   "    height : 30px;\n"
+                                   "    border : 1px solid black;\n"
+                                   "    border-radius : 8px;\n"
+                                   "    color : white;\n"
+                                   "}")
+        self.clearButton.clicked.connect(self.clearList)
+        self.clearButton.setObjectName("clearButton")
+
+
         self.lineEdit = QtWidgets.QLineEdit(self.page_1_TSP)
         self.lineEdit.setGeometry(QtCore.QRect(60, 80, 113, 22))
         self.lineEdit.setStyleSheet("QLineEdit{\n"
@@ -375,7 +390,7 @@ class Ui_MainWindow(object):
         self.label_12.setObjectName("label_12")
 
         self.scrollArea2 = QtWidgets.QScrollArea(self.page_3_TSP)
-        self.scrollArea2.setGeometry(QtCore.QRect(190,80,400,500))
+        self.scrollArea2.setGeometry(QtCore.QRect(190,80,550,500))
         self.scrollArea2.setWidgetResizable(True)
 
 
@@ -389,20 +404,20 @@ class Ui_MainWindow(object):
 "}")
         self.scrollArea2.setWidget(self.resultTSP)
         self.commandLinkButton = QtWidgets.QCommandLinkButton(self.page_3_TSP)
-        self.commandLinkButton.setGeometry(QtCore.QRect(640, 570, 151, 41))
+        self.commandLinkButton.setGeometry(QtCore.QRect(640, 600, 151, 41))
         self.commandLinkButton.setObjectName("commandLinkButton")
         self.commandLinkButton.clicked.connect(self.getshortestpath)
         self.stackedWidget.addWidget(self.page_3_TSP)
         self.produit = QtWidgets.QWidget()
         self.produit.setObjectName("produit")
         self.duree = QtWidgets.QLineEdit(self.produit)
-        self.duree.setGeometry(QtCore.QRect(130, 30, 131, 31))
+        self.duree.setGeometry(QtCore.QRect(250, 30, 131, 31))
         self.duree.setObjectName("duree")
         self.produitlist = QtWidgets.QListView(self.produit)
         self.produitlist.setGeometry(QtCore.QRect(210, 171, 351, 291))
         self.produitlist.setObjectName("produitlist")
         self.label_2 = QtWidgets.QLabel(self.produit)
-        self.label_2.setGeometry(QtCore.QRect(30, 30, 81, 21))
+        self.label_2.setGeometry(QtCore.QRect(30, 30, 200, 21))
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setBold(True)
@@ -411,9 +426,11 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName("label_2")
         self.productname = QtWidgets.QLineEdit(self.produit)
         self.productname.setGeometry(QtCore.QRect(210, 120, 113, 22))
+        self.productname.setPlaceholderText("nom produit")
         self.productname.setObjectName("productname")
         self.produitnomber = QtWidgets.QLineEdit(self.produit)
         self.produitnomber.setGeometry(QtCore.QRect(340, 120, 101, 22))
+        self.produitnomber.setPlaceholderText("gain produit")
         self.produitnomber.setObjectName("produitnomber")
         self.ajouter2 = QtWidgets.QPushButton(self.produit)
         self.ajouter2.setGeometry(QtCore.QRect(460, 120, 93, 28))
@@ -438,6 +455,7 @@ class Ui_MainWindow(object):
         self.label_4.setObjectName("label_4")
         self.ressourcename = QtWidgets.QLineEdit(self.ressource)
         self.ressourcename.setGeometry(QtCore.QRect(210, 100, 113, 22))
+        self.ressourcename.setPlaceholderText("nom ressource")
         self.ressourcename.setObjectName("ressourcename")
         self.counterressource = QtWidgets.QSpinBox(self.ressource)
         self.counterressource.setGeometry(QtCore.QRect(340, 100, 81, 22))
@@ -794,27 +812,8 @@ class Ui_MainWindow(object):
                                         "font-size : 16px;\n"
                                         "font-weight : bold;\n"
                                         "}")
-
-
         self.scrollArea.setWidget(self.rescelltower)
-
-        # self.rescelltower = QtWidgets.QLabel(self.page_4)
-        # self.rescelltower.setGeometry(QtCore.QRect(230, 110, 331, 271))
-        # self.rescelltower.setObjectName("rescelltower")
-        # self.rescelltower.setStyleSheet("QLabel{\n"
-        #                                 "    color : green;\n"
-        #                                 "font-size : 16px;\n"
-        #                                 "font-weight : bold;\n"
-        #                                 "}")
-
-
-
-
-
-
         self.stackedWidget.addWidget(self.page_4)
-
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.actionTSP = QtWidgets.QAction(MainWindow)
         self.actionTSP.setObjectName("actionTSP")
@@ -825,21 +824,22 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Application Ro"))
         self.tspbutton.setText(_translate("MainWindow", "Chemin le plus court"))
         self.ressources.setText(_translate("MainWindow", "Ressources"))
-        self.cellTower.setText(_translate("MainWindow", "cellTower"))
+        self.cellTower.setText(_translate("MainWindow", "Couverture des Tours"))
+        self.clearButton.setText(_translate("MainWindow", "Effacer"))
         self.suivant1.setText(_translate("MainWindow", "Suivant >"))
         self.ajouter.setText(_translate("MainWindow", "Ajouter"))
         self.label.setText(_translate("MainWindow", "Definir vos noeuds "))
         self.precedent.setText(_translate("MainWindow", "Precedent"))
         self.resoudre1.setText(_translate("MainWindow", "résoudre"))
-        self.label_10.setText(_translate("MainWindow", "Start"))
-        self.label_11.setText(_translate("MainWindow", "End"))
+        self.label_10.setText(_translate("MainWindow", "DEBUT"))
+        self.label_11.setText(_translate("MainWindow", "FIN"))
         self.label_12.setText(_translate("MainWindow", "Resultat"))
-        self.resultTSP.setText(_translate("MainWindow", "lenna result tsp"))
+        self.resultTSP.setText(_translate("MainWindow", ""))
         self.commandLinkButton.setText(_translate("MainWindow", "chemin"))
-        self.label_2.setText(_translate("MainWindow", "durée"))
+        self.label_2.setText(_translate("MainWindow", "durée de planification"))
         self.ajouter2.setText(_translate("MainWindow", "Ajouter"))
         self.ajoutdata.setText(_translate("MainWindow", "Ajouter"))
         self.suivant2.setText(_translate("MainWindow", "Suivant >"))
@@ -857,13 +857,13 @@ class Ui_MainWindow(object):
         self.precedent_5.setText(_translate("MainWindow", "Precedent"))
         self.resoudre_5.setText(_translate("MainWindow", "résoudre"))
         self.label_8.setText(_translate("MainWindow", "Profit"))
-        self.label_9.setText(_translate("MainWindow", "lenn n7otou valeur "))
+        self.label_9.setText(_translate("MainWindow", ""))
         self.resoudre_6.setText(_translate("MainWindow", "suivant >"))
         self.precedent_6.setText(_translate("MainWindow", "Precedent"))
         self.suivant5.setText(_translate("MainWindow", "suivant >"))
         self.precedent_7.setText(_translate("MainWindow", "Precedent"))
         self.resoudre_8.setText(_translate("MainWindow", "resoudre"))
-        self.label_14.setText(_translate("MainWindow", "allocated budget"))
+        self.label_14.setText(_translate("MainWindow", "budget alloué"))
         self.actionTSP.setText(_translate("MainWindow", "TSP"))
 
     def next_index(self):
@@ -893,6 +893,11 @@ class Ui_MainWindow(object):
             self.model1.appendRow(item)
         self.listView.setModel(self.model1)
         self.lineEdit.clear()
+
+    def clearList(self):
+        model = QtGui.QStandardItemModel()
+        self.shortestPathData = []
+        self.listView.setModel(model)
     def insertdatashortestpath(self):
         model = QtGui.QStandardItemModel()
         n = len(self.shortestPathData)
@@ -941,7 +946,7 @@ class Ui_MainWindow(object):
 
             try:
                 value,thePath = shortest_path(start,end,matrix)
-                data = "Shortest path from "+start+" to "+end+" is "+str(value ) + " with paths: \n"
+                data = "le chemin le plus court de " + start + " à " + end + " est " + str(value) + " avec les chemins: \n"
                 for i in thePath:
                     for j in i:
                         data += j + " -> "
@@ -998,7 +1003,7 @@ class Ui_MainWindow(object):
         self.profit[productName] = productNumber
         self.model2 = QtGui.QStandardItemModel()
         for i in self.profit:
-            item = QtGui.QStandardItem(i)
+            item = QtGui.QStandardItem(i +" : "+ str(self.profit[i]))
             self.model2.appendRow(item)
         self.produitlist.setModel(self.model2)
         self.productname.clear()
@@ -1028,7 +1033,7 @@ class Ui_MainWindow(object):
         self.ressourcesList[ressourceName] = ressourceNumber
         self.model3 = QtGui.QStandardItemModel()
         for i in self.ressourcesList:
-            item = QtGui.QStandardItem(i)
+            item = QtGui.QStandardItem(i +" : "+ str(self.ressourcesList[i]))
             self.model3.appendRow(item)
         self.listView_2.setModel(self.model3)
         self.ressourcename.clear()
@@ -1265,9 +1270,9 @@ class Ui_MainWindow(object):
         model = self.tableView_5.model()
         self.region_population = {}
         n = model.columnCount()
-        print("n = ",n)
+        #print("n = ",n)
         for i in range(1,n):
-            if(not(is_int(model.item(1,i).text()))):
+            if(not(is_int(model.item(1,i).text())) or int(model.item(1,i).text()) <= 0):
                 msg = QtWidgets.QMessageBox()
                 msg.setIcon(QtWidgets.QMessageBox.Warning)
                 msg.setText("wrong input in cell ("+str(1)+","+str(i)+")")

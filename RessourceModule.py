@@ -41,7 +41,8 @@ def handle(periods, gain, installed, time_req, max_do, holding_cost, max_invento
     capacity = model.addConstrs((gp.quicksum(time_req[ressource][task] * do[period,task] for task in time_req[ressource]) <= total_work * installed[ressource] for ressource in ressources for period in periods), name="Capacity")
     task_assignment = model.addConstrs((gp.quicksum(time_req[resource][task] * installed[resource] for task in tasks) >= 0.00001 for resource in ressources),name="Task_Assignment")
 
-
+    # resource availability
+    resource_availability = model.addConstrs(((installed[resource] > 0) if (time_req[resource][task] > 0) else True for task in tasks for resource in ressources), name="Resource_Availability")
 
     # Objective Function
     objective = gp.quicksum(gain[task] * make[period,task] - holding_cost * store[period,task] for period in periods for task in tasks)
